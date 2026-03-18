@@ -1,0 +1,40 @@
+<div class="page-container">
+    <header class="directory-header">
+      <h1>Directorio de Residentes</h1>
+      <mat-form-field appearance="outline" class="search-field">
+        <mat-label>Buscar por nombre o casa...</mat-label>
+        <input matInput (input)="searchTerm.set($any($event.target).value)" placeholder="Ej. Calle Olmos 12">
+        <mat-icon matSuffix>search</mat-icon>
+      </mat-form-field>
+    </header>
+  
+    <div class="directory-grid">
+      @for (res of filteredResidents(); track res._id) {
+        <mat-card class="resident-card">
+          <mat-card-header>
+            <div mat-card-avatar class="avatar">
+              {{ res.first_name[0] }}{{ res.last_name[0] }}
+            </div>
+            <mat-card-title>{{ res.first_name }} {{ res.last_name }}</mat-card-title>
+            <mat-card-subtitle>
+              <mat-icon inline>home</mat-icon> {{ res.house_id?.house_number || 'Sin casa asignada' }}
+            </mat-card-subtitle>
+          </mat-card-header>
+  
+          <mat-card-actions align="end">
+            <button mat-stroked-button color="primary" (click)="callResident(res.phone)">
+              <mat-icon>phone</mat-icon> LLAMAR
+            </button>
+            <button mat-flat-button class="whatsapp-btn" (click)="whatsappResident(res.phone, res.first_name)">
+              <mat-icon>chat</mat-icon> WHATSAPP
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <div class="no-results">
+          <mat-icon>person_off</mat-icon>
+          <p>No se encontraron residentes con ese criterio.</p>
+        </div>
+      }
+    </div>
+  </div>

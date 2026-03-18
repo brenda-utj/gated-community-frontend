@@ -1,1 +1,13 @@
-/* You can add global styles to this file, and also import other style files */
+// Importar el tema base de Angular Material
+@import "@angular/material/prebuilt-themes/indigo-pink.css";
+
+html, body { 
+  height: 100%; 
+  margin: 0; 
+  font-family: Roboto, "Helvetica Neue", sans-serif; 
+}
+
+// Clase para que el fondo del login sea visible
+.login-container {
+  background-color: #f0f2f5 !important;
+}

@@ -1,0 +1,41 @@
+<h2 mat-dialog-title>
+    {{ isEditMode ? 'Editar Vehículo' : 'Registrar Nuevo Vehículo' }}
+  </h2>
+  
+  <mat-dialog-content>
+    <form [formGroup]="vehicleForm" class="form-grid">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Número de Placa</mat-label>
+        <input matInput formControlName="plate" placeholder="Ej. ABC-1234" class="uppercase">
+        <mat-icon matSuffix>subtitles</mat-icon>
+        <mat-error *ngIf="vehicleForm.controls.plate.errors?.['required']">La placa es obligatoria</mat-error>
+      </mat-form-field>
+  
+      <div class="row">
+        <mat-form-field appearance="outline">
+          <mat-label>Marca</mat-label>
+          <input matInput formControlName="brand" placeholder="Ej. Toyota">
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline">
+          <mat-label>Modelo</mat-label>
+          <input matInput formControlName="model" placeholder="Ej. Corolla">
+        </mat-form-field>
+      </div>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Color</mat-label>
+        <input matInput formControlName="color" placeholder="Ej. Blanco Perla">
+        <mat-icon matSuffix>palette</mat-icon>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>CANCELAR</button>
+    <button mat-flat-button color="primary" 
+            (click)="save()" 
+            [disabled]="vehicleForm.invalid">
+      {{ isEditMode ? 'ACTUALIZAR' : 'GUARDAR VEHÍCULO' }}
+    </button>
+  </mat-dialog-actions>

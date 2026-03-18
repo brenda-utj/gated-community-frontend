@@ -1,0 +1,76 @@
+<div class="page-container">
+    <header class="main-header">
+      <div class="title-section">
+        <h1>Mis Pagos de Mantenimiento</h1>
+        <p>Gestiona y consulta el historial de tus cuotas mensuales</p>
+      </div>
+      <button mat-flat-button color="primary" (click)="openUploadDialog()">
+        <mat-icon>add_a_photo</mat-icon>
+        REGISTRAR NUEVO PAGO
+      </button>
+    </header>
+  
+    <mat-card class="content-card">
+      <div class="table-responsive">
+        <table mat-table [dataSource]="payments()" class="full-width-table">
+          
+          <ng-container matColumnDef="month">
+            <th mat-header-cell *matHeaderCellDef> Mes Cubierto </th>
+            <td mat-cell *matCellDef="let p"> 
+              <span class="font-bold text-primary">{{ p.month_covered }}</span> 
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef> Monto </th>
+            <td mat-cell *matCellDef="let p"> {{ p.amount | currency }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef> Estado </th>
+            <td mat-cell *matCellDef="let p">
+              <span class="status-badge" [ngClass]="p.status">
+                <mat-icon class="status-icon">
+                  {{ p.status === 'verified' ? 'check_circle' : p.status === 'rejected' ? 'cancel' : 'schedule' }}
+                </mat-icon>
+                {{ p.status === 'verified' ? 'Verificado' : p.status === 'rejected' ? 'Rechazado' : 'Pendiente' }}
+              </span>
+            </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="date">
+            <th mat-header-cell *matHeaderCellDef> Fecha de Envío </th>
+            <td mat-cell *matCellDef="let p"> {{ p.created_at | date:'dd/MM/yyyy' }} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="receipt">
+            <th mat-header-cell *matHeaderCellDef> Comprobante </th>
+            <td mat-cell *matCellDef="let p">
+              <a [href]="p.receipt_url" target="_blank" mat-icon-button color="accent" matTooltip="Ver imagen original">
+                <mat-icon>visibility</mat-icon>
+              </a>
+            </td>
+          </ng-container>
+  
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+  
+      @if (payments().length === 0) {
+        <div class="empty-state">
+          <mat-icon class="empty-icon">payments</mat-icon>
+          <h3>No hay pagos registrados</h3>
+          <p>Parece que aún no has subido comprobantes de mantenimiento.</p>
+          <button mat-stroked-button color="primary" (click)="openUploadDialog()">
+            SUBIR MI PRIMER PAGO
+          </button>
+        </div>
+      }
+    </mat-card>
+  
+    <footer class="payment-footer">
+      <mat-icon color="primary">info</mat-icon>
+      <p>Los pagos pueden tardar hasta 48 horas hábiles en ser verificados por la administración.</p>
+    </footer>
+  </div>

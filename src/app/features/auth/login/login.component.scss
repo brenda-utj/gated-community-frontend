@@ -1,0 +1,54 @@
+.login-container {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f0f2f5; // Gris azulado suave muy común en apps modernas
+  
+  .login-card {
+    width: 90%;
+    max-width: 420px;
+    padding: 16px;
+    background-color: #ffffff !important; // Forzamos el blanco si el tema global es oscuro
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1) !important; // Sombra suave
+    border-radius: 12px;
+
+    mat-card-header {
+      margin-bottom: 24px;
+      justify-content: center;
+      text-align: center;
+
+      mat-card-title {
+        font-size: 24px;
+        font-weight: 700;
+        color: #1a1a1a;
+        margin-bottom: 8px;
+      }
+
+      mat-card-subtitle {
+        font-size: 14px;
+        color: #65676b;
+      }
+    }
+  }
+
+  .full-width {
+    width: 100%;
+    margin-bottom: 8px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  button {
+    margin-top: 16px;
+    padding: 24px; // Botón más alto y moderno
+    font-size: 16px;
+    font-weight: 600;
+    border-radius: 8px;
+  }
+}

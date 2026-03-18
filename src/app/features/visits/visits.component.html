@@ -1,0 +1,61 @@
+<div class="page-container">
+  <div class="header-section">
+    <h1>Mis Visitas</h1>
+    <button mat-fab extended color="primary" (click)="openRequestDialog()">
+      <mat-icon>add</mat-icon> NUEVA INVITACIÓN
+    </button>
+  </div>
+
+  <div class="visits-grid">
+    @for (visit of visits(); track visit._id) {
+      <mat-card class="visit-card">
+        <div class="card-content-layout">
+          
+          <div class="info-section">
+            <mat-card-header>
+              <mat-card-title>{{ visit.visitor_name }}</mat-card-title>
+              <mat-card-subtitle>
+                <mat-icon inline>event</mat-icon> {{ visit.visit_date | date:'shortDate' }}
+              </mat-card-subtitle>
+            </mat-card-header>
+            
+            <mat-card-content>
+              <span class="status-badge" [attr.data-status]="visit.status">
+                {{ visit.status }}
+              </span>
+            </mat-card-content>
+
+            <mat-card-actions align="start" class="actions-area">
+              @if (visit.status === 'pending') {
+                <button mat-button color="warn" (click)="cancelVisit(visit._id)">
+                  <mat-icon>cancel</mat-icon>
+                  CANCELAR
+                </button>
+                <button mat-icon-button color="primary" matTooltip="Compartir Pase">
+                  <mat-icon>share</mat-icon>
+                </button>
+              }
+            </mat-card-actions>
+          </div>
+      
+          <div class="qr-section">
+            <qrcode 
+              [qrdata]="visit.qr_code_hash || ''" 
+              [width]="100" 
+              [errorCorrectionLevel]="'M'"
+              [elementType]="'canvas'"
+              [margin]="2">
+            </qrcode>
+            <small>PASE DE ACCESO</small>
+          </div>
+      
+        </div>
+      </mat-card>
+    } @empty {
+    <div class="empty-state">
+      <mat-icon>history_toggle_off</mat-icon>
+      <p>No tienes visitas registradas.</p>
+    </div>
+    }
+  </div>
+</div>

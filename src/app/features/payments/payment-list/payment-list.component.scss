@@ -1,0 +1,156 @@
+.page-container {
+    padding: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+  
+    .title-section {
+      h1 {
+        margin: 0;
+        font-size: 24px;
+        font-weight: 700;
+        color: #1e293b;
+      }
+      p {
+        margin: 4px 0 0;
+        color: #64748b;
+      }
+    }
+  }
+  
+  .content-card {
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1) !important;
+    border: none;
+  }
+  
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .full-width-table {
+    width: 100%;
+    background: white;
+  
+    th.mat-mdc-header-cell {
+      background-color: #f8fafc;
+      color: #475569;
+      font-weight: 600;
+      padding: 16px;
+      text-transform: uppercase;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+    }
+  
+    td.mat-mdc-cell {
+      padding: 16px;
+      color: #334155;
+      border-bottom: 1px solid #f1f5f9;
+    }
+  
+    tr.mat-mdc-row:hover {
+      background-color: #f8fafc;
+    }
+  }
+  
+  .text-primary {
+    color: #3f51b5;
+  }
+  
+  .font-bold {
+    font-weight: 600;
+  }
+  
+  /* BADGES DE ESTADO */
+  .status-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+  
+    .status-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+    }
+  
+    /* Estados dinámicos basados en la clase [ngClass] */
+    &.pending {
+      background-color: #fffbeb;
+      color: #92400e;
+      border: 1px solid #fde68a;
+    }
+  
+    &.verified {
+      background-color: #f0fdf4;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+  
+    &.rejected {
+      background-color: #fef2f2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+  }
+  
+  /* ESTADO VACÍO */
+  .empty-state {
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  
+    .empty-icon {
+      font-size: 64px;
+      width: 64px;
+      height: 64px;
+      color: #cbd5e1;
+      margin-bottom: 16px;
+    }
+  
+    h3 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1e293b;
+      margin-bottom: 8px;
+    }
+  
+    p {
+      color: #64748b;
+      margin-bottom: 24px;
+      max-width: 300px;
+    }
+  }
+  
+  .payment-footer {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 16px;
+    background-color: #eff6ff;
+    border-radius: 8px;
+    color: #1e40af;
+    font-size: 13px;
+  
+    mat-icon {
+      font-size: 20px;
+      width: 20px;
+      height: 20px;
+    }
+    p { margin: 0; }
+  }

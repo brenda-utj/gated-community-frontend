@@ -1,0 +1,74 @@
+<div class="page-container">
+  <div class="header-row">
+    <div>
+      <h1>Fraccionamientos</h1>
+      <p>Gestiona los complejos residenciales registrados en la plataforma.</p>
+    </div>
+    <button mat-flat-button color="primary" (click)="openCreateDialog()" [disabled]="isLoading()">
+      <mat-icon>add_location_alt</mat-icon> REGISTRAR COMPLEJO
+    </button>
+  </div>
+
+  @if (isLoading()) {
+    <div class="loading-container">
+      <mat-spinner diameter="50"></mat-spinner>
+      <p>Cargando información...</p>
+    </div>
+  } @else {
+    <div class="complex-grid">
+      @for (item of complexes(); track item._id) {
+        <mat-card class="complex-card">
+          <div class="status-badge" [ngClass]="item.subscription_status">
+            {{ item.subscription_status | uppercase }}
+          </div>
+
+          <mat-card-header>
+            <mat-icon mat-card-avatar color="primary">domain</mat-icon>
+            <mat-card-title>{{ item.name }}</mat-card-title>
+            <mat-card-subtitle>{{ item.address }}</mat-card-subtitle>
+          </mat-card-header>
+          
+          <mat-card-content>
+            <div class="info-row">
+              <mat-icon color="accent">supervisor_account</mat-icon>
+              <div class="admin-info">
+                <span class="label">Administrador:</span>
+                <span class="value">
+                  @if (item.admin_user) {
+                    {{ item.admin_user.first_name }} {{ item.admin_user.last_name }}
+                    <small class="admin-email">({{ item.admin_user.email }})</small>
+                  } @else {
+                    <em class="unassigned">No asignado</em>
+                  }
+                </span>
+              </div>
+            </div>
+          
+            <mat-divider class="card-divider"></mat-divider>
+          
+            <div class="footer-info">
+              <div class="info-row">
+                <mat-icon>event</mat-icon>
+                <span>Registrado: {{ item.created_at | date:'shortDate' }}</span>
+              </div>
+            </div>
+          </mat-card-content>
+  
+          <mat-card-actions align="end">
+            <button mat-icon-button color="primary" matTooltip="Editar" (click)="openEditDialog(item)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button mat-icon-button color="warn" matTooltip="Eliminar" (click)="deleteComplex(item)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </mat-card-actions>
+        </mat-card>
+      } @empty {
+        <div class="empty-state">
+          <mat-icon>location_off</mat-icon>
+          <p>No hay fraccionamientos registrados aún.</p>
+        </div>
+      }
+    </div>
+  }
+</div>

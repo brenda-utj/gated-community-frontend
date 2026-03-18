@@ -1,0 +1,104 @@
+<div class="page-container">
+  <header class="main-header">
+    <div class="title-section">
+      <h1>{{ complexName() }}</h1>
+      <p>Gestión de servicios, vehículos y miembros del hogar</p>
+    </div>
+    
+    <div class="house-badge">
+      <mat-icon>home</mat-icon>
+      <span>{{ houseAddress() }}</span>
+    </div>
+  </header>
+
+  <mat-tab-group dynamicHeight animationDuration="500ms">
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">directions_car</mat-icon> Vehículos
+      </ng-template>
+
+      <div class="tab-content">
+        <div class="action-row">
+          <h3>Mis Vehículos Registrados</h3>
+          <button mat-stroked-button color="primary" (click)="addVehicle()">
+            <mat-icon>add</mat-icon> AGREGAR VEHÍCULO
+          </button>
+        </div>
+
+        <div class="items-grid">
+          <mat-card class="item-card vehicle" *ngFor="let car of vehicles()">
+            <div class="card-accent"></div>
+            <mat-card-content>
+              <div class="item-header">
+                <span class="plate-number">{{ car.plate }}</span>
+                <button
+                  mat-icon-button
+                  [matMenuTriggerFor]="menu"
+                  [matMenuTriggerData]="{ item: car, type: 'vehicle' }"
+                >
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+              </div>
+              <p class="model-text">{{ car.brand }} {{ car.model }}</p>
+              <p class="color-text">
+                <mat-icon>palette</mat-icon> {{ car.color }}
+              </p>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+
+    <mat-tab>
+      <ng-template mat-tab-label>
+        <mat-icon class="tab-icon">pets</mat-icon> Mascotas
+      </ng-template>
+
+      <div class="tab-content">
+        <div class="action-row">
+          <h3>Mascotas de la familia</h3>
+          <button mat-stroked-button color="primary" (click)="addPet()">
+            <mat-icon>add</mat-icon> REGISTRAR MASCOTA
+          </button>
+        </div>
+
+        <div class="items-grid">
+          <mat-card class="item-card pet" *ngFor="let pet of pets()">
+            <div class="card-accent"></div>
+            <mat-card-content>
+              <div class="item-header">
+                <span class="pet-type-tag">{{ pet.type | uppercase }}</span>
+                <button
+                  mat-icon-button
+                  [matMenuTriggerFor]="menu"
+                  [matMenuTriggerData]="{ item: pet, type: 'pet' }"
+                >
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+              </div>
+        
+              <div class="pet-main-content">
+                <div class="pet-avatar-circle">
+                  <mat-icon>{{ pet.type === 'cat' ? 'pets' : 'pets' }}</mat-icon>
+                </div>
+                <div class="pet-text-data">
+                  <h4 class="pet-name">{{ pet.name }}</h4>
+                  <p class="pet-breed">{{ pet.breed }}</p>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>
+
+<mat-menu #menu="matMenu">
+  <ng-template matMenuContent let-item="item" let-type="type">
+
+    <button mat-menu-item class="text-warn" (click)="confirmDelete(item, type)">
+      <mat-icon color="warn">delete</mat-icon> Eliminar
+    </button>
+  </ng-template>
+</mat-menu>

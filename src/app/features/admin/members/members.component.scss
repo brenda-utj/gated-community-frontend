@@ -1,0 +1,122 @@
+.page-container {
+    padding: 32px;
+    background: #f8fafc;
+    min-height: 100vh;
+  }
+  
+  .main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 32px;
+  
+    .title-section {
+      h1 { margin: 0; font-size: 28px; font-weight: 800; color: #1e293b; letter-spacing: -0.5px; }
+      p { margin: 4px 0 0; color: #64748b; font-size: 15px; }
+    }
+  
+    .add-btn {
+      padding: 12px 24px;
+      border-radius: 12px;
+      font-weight: 600;
+      box-shadow: 0 4px 12px rgba(var(--mat-primary-main), 0.2);
+    }
+  }
+  
+  .content-card {
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 10px 15px -3px rgba(0,0,0,0.03) !important;
+  }
+  
+  .table-tools {
+    padding: 20px 24px;
+    background: #ffffff;
+    .search-field { width: 100%; max-width: 450px; }
+  }
+  
+  // ESTILOS DE LA TABLA
+  .table-responsive {
+    width: 100%;
+    overflow-x: auto;
+  }
+  
+  .modern-table {
+    width: 100%;
+    
+    .mat-mdc-header-cell {
+      background: #f1f5f9;
+      color: #475569;
+      font-weight: 700;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      padding: 20px !important;
+    }
+  
+    .table-row {
+      &:hover { background-color: #f8fafc !important; }
+      transition: background 0.2s ease;
+    }
+  }
+  
+  // CELDAS ESPECIALES
+  .member-cell {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  
+    .initials-avatar {
+      width: 44px; height: 44px;
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; font-size: 14px;
+      background: #f1f5f9; color: #475569;
+  
+      &[data-role="admin"] { background: #dbeafe; color: #1d4ed8; }
+      &[data-role="resident"] { background: #dcfce7; color: #15803d; }
+      &[data-role="security"] { background: #fef9c3; color: #a16207; }
+    }
+  
+    .name-data {
+      display: flex; flex-direction: column;
+      .main-name { font-weight: 600; color: #0f172a; font-size: 15px; }
+      .sub-text { font-size: 13px; color: #64748b; }
+    }
+  }
+  
+  // BADGES DE ROLES
+  .badge {
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 12px;
+    font-weight: 700;
+    display: inline-block;
+  
+    &-admin { background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; }
+    &-resident { background: #f0fdf4; color: #16a34a; border: 1px solid #bbf7d0; }
+    &-security { background: #fffbeb; color: #d97706; border: 1px solid #fef3c7; }
+  }
+  
+  .house-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: #334155;
+    mat-icon { font-size: 18px; width: 18px; height: 18px; color: #64748b; }
+  }
+  
+  .status-tag { color: #94a3b8; font-style: italic; font-size: 13px; }
+  
+  .actions-group {
+    display: flex; justify-content: flex-end; gap: 4px;
+    .icon-edit { color: #6366f1; }
+    .icon-delete { color: #f43f5e; }
+  }
+  
+  .text-right { text-align: right; }

@@ -1,0 +1,96 @@
+<div class="page-container">
+  <header class="main-header">
+    <div class="title-section">
+      <h1>Directorio del Complejo</h1>
+      <p>Gestión centralizada de usuarios y roles</p>
+    </div>
+    <button mat-flat-button color="primary" class="add-btn" (click)="openMemberForm()">
+      <mat-icon>person_add</mat-icon>
+      <span>NUEVO MIEMBRO</span>
+    </button>
+  </header>
+
+  <mat-card class="content-card">
+    <div class="table-tools">
+      <mat-form-field appearance="outline" class="search-field" subscriptSizing="dynamic">
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-label>Buscar por nombre, correo o casa...</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ej. Juan Pérez" #input>
+      </mat-form-field>
+    </div>
+
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" class="modern-table">
+
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef> Miembro </th>
+          <td mat-cell *matCellDef="let m"> 
+            <div class="member-cell">
+              <div class="initials-avatar" [attr.data-role]="m.role">
+                {{ m.first_name[0] }}{{ m.last_name[0] }}
+              </div>
+              <div class="name-data">
+                <span class="main-name">{{ m.first_name }} {{ m.last_name }}</span>
+                <span class="sub-text email-text">{{ m.email }}</span>
+              </div>
+            </div>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef> Contacto </th>
+          <td mat-cell *matCellDef="let m"> 
+            <span class="phone-text">{{ m.phone || 'Sin teléfono' }}</span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="role">
+          <th mat-header-cell *matHeaderCellDef> Rol </th>
+          <td mat-cell *matCellDef="let m">
+            <span class="badge" [ngClass]="'badge-' + m.role">
+              {{ m.role === 'super_admin' ? 'Super Admin' : (m.role | titlecase) }}
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="house">
+          <th mat-header-cell *matHeaderCellDef> Ubicación </th>
+          <td mat-cell *matCellDef="let m">
+            @if (m.house_id) {
+              <div class="house-chip">
+                <mat-icon>meeting_room</mat-icon>
+                <span>{{ m.house_id.street }} #{{ m.house_id.house_number }}</span>
+              </div>
+            } @else {
+              <span class="status-tag">No asignado</span>
+            }
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef class="text-right"> Gestión </th>
+          <td mat-cell *matCellDef="let m" class="text-right">
+            <div class="actions-group">
+              <button mat-icon-button (click)="openMemberForm(m)" matTooltip="Editar">
+                <mat-icon class="icon-edit">edit_note</mat-icon>
+              </button>
+              <button mat-icon-button (click)="deleteMember(m)" matTooltip="Eliminar">
+                <mat-icon class="icon-delete">delete_outline</mat-icon>
+              </button>
+            </div>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row"></tr>
+      </table>
+
+      <div class="empty-state" *ngIf="dataSource.data.length === 0">
+        <mat-icon>people_outline</mat-icon>
+        <p>No se encontraron miembros en este complejo.</p>
+      </div>
+    </div>
+
+    <mat-paginator [pageSizeOptions]="[10, 20]" showFirstLastButtons></mat-paginator>
+  </mat-card>
+</div>

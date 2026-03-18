@@ -1,0 +1,30 @@
+<h2 mat-dialog-title>Nueva invitación</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="visitForm" class="form-container">
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Nombre del visitante</mat-label>
+      <input matInput formControlName="visitor_name" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email del visitante (opcional)</mat-label>
+      <input matInput type="email" formControlName="visitor_email" />
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha de visita</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="visit_date" />
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>CANCELAR</button>
+  <button mat-flat-button color="primary" (click)="send()" [disabled]="visitForm.invalid">
+    ENVIAR
+  </button>
+</mat-dialog-actions>
+

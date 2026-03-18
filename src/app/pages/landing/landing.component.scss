@@ -1,0 +1,169 @@
+:host {
+  display: block;
+  font-family: "Inter", sans-serif;
+}
+
+/* NAVBAR */
+
+.navbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:20px 60px;
+  position:sticky;
+  top:0;
+  background:white;
+  z-index:100;
+  border-bottom:1px solid #eee;
+}
+
+.logo{
+  font-weight:700;
+  font-size:20px;
+}
+
+nav a{
+  margin:0 15px;
+  text-decoration:none;
+  color:#444;
+}
+
+.login-btn{
+  background:#004D79;
+  color:white;
+  border:none;
+  padding:10px 18px;
+  border-radius:8px;
+  cursor:pointer;
+  transition:0.2s;
+}
+
+/* HERO */
+
+.hero{
+  height:80vh;
+  display:flex;
+  justify-content:flex-end;
+  align-items:center;
+  text-align:right;
+  padding:80px;
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(0,77,121,0.55),
+      rgba(0,77,121,0.25)
+    ),
+    url("/assets/images/fondo.png");
+
+  background-size:cover;
+  background-position:center;
+  background-repeat:no-repeat;
+
+  color:white;
+}
+
+.hero-text h1{
+  font-size:48px;
+  max-width:700px;
+}
+
+.hero-text p{
+  margin-top:20px;
+  font-size:18px;
+  opacity:.9;
+}
+
+.primary{
+  margin-top:30px;
+  padding:14px 28px;
+  border:none;
+  border-radius:10px;
+  background:white;
+  color:#004D79;
+  font-weight:600;
+  cursor:pointer;
+}
+
+/* FEATURES */
+
+.features{
+  padding:80px 60px;
+  text-align:center;
+}
+
+.features h2{
+  margin-bottom:50px;
+}
+
+.features-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:30px;
+}
+
+.feature-card{
+  padding:30px;
+  border-radius:12px;
+  box-shadow:0 10px 30px rgba(0,0,0,0.08);
+  background:white;
+  transition:transform .2s;
+}
+
+.feature-card:hover{
+  transform:translateY(-5px);
+}
+
+/* HOW */
+
+.how{
+  padding:80px 60px;
+  background:#f6f7fb;
+  text-align:center;
+}
+
+.steps{
+  margin-top:40px;
+  display:flex;
+  justify-content:center;
+  gap:40px;
+  flex-wrap:wrap;
+}
+
+.step{
+  max-width:220px;
+}
+
+.number{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  background:#004D79;
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  margin:auto;
+  margin-bottom:15px;
+  font-weight:600;
+}
+
+/* CONTACT */
+
+.contact{
+  padding:80px 20px;
+  text-align:center;
+}
+
+.contact p{
+  margin-top:15px;
+}
+
+/* FOOTER */
+
+footer{
+  background:#111;
+  color:white;
+  padding:40px;
+  text-align:center;
+}

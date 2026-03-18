@@ -1,0 +1,66 @@
+<h2 mat-dialog-title>{{ isEditMode ? 'Editar' : 'Registrar' }} Miembro</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="memberForm" class="form-container">
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="first_name" placeholder="Ej. Juan">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Apellido</mat-label>
+        <input matInput formControlName="last_name" placeholder="Ej. Pérez">
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline">
+      <mat-label>Correo Electrónico</mat-label>
+      <input matInput formControlName="email" type="email" placeholder="email@ejemplo.com">
+      <mat-hint *ngIf="isEditMode">El correo no puede ser modificado</mat-hint>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" *ngIf="!isEditMode">
+      <mat-label>Contraseña Temporal</mat-label>
+      <input matInput [type]="hidePassword ? 'password' : 'text'" formControlName="password">
+      <button mat-icon-button matSuffix (click)="hidePassword = !hidePassword" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hidePassword" type="button">
+        <mat-icon>{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+      </button>
+      <mat-hint>Mínimo 6 caracteres</mat-hint>
+      <mat-error *ngIf="memberForm.get('password')?.hasError('required')">La contraseña es obligatoria</mat-error>
+    </mat-form-field>
+
+    <div class="row">
+      <mat-form-field appearance="outline">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="phone" placeholder="10 dígitos">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Rol</mat-label>
+        <mat-select formControlName="role">
+          <mat-option value="resident">Residente</mat-option>
+          <mat-option value="security">Seguridad</mat-option>
+          <mat-option value="admin">Administrador</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" *ngIf="memberForm.get('role')?.value === 'resident'">
+      <mat-label>Asignar Casa</mat-label>
+      <mat-select formControlName="house_id">
+        <mat-option *ngFor="let house of houses" [value]="house._id">
+          {{ house.street }} #{{ house.house_number }}
+        </mat-option>
+      </mat-select>
+      <mat-error>La casa es obligatoria para residentes</mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-flat-button color="primary" (click)="save()" [disabled]="memberForm.invalid">
+    {{ isEditMode ? 'Actualizar Cambios' : 'Crear Miembro' }}
+  </button>
+</mat-dialog-actions>

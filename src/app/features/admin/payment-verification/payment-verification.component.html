@@ -1,0 +1,52 @@
+<div class="page-container">
+    <header class="admin-header">
+      <h1>Verificación de Pagos</h1>
+      <p>Revisa y aprueba los comprobantes de mantenimiento de los residentes</p>
+    </header>
+  
+    <mat-card class="table-card">
+      <table mat-table [dataSource]="payments()">
+        
+        <ng-container matColumnDef="resident">
+          <th mat-header-cell *matHeaderCellDef> Residente </th>
+          <td mat-cell *matCellDef="let p"> {{ p.resident_id?.first_name }} {{ p.resident_id?.last_name }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="house">
+          <th mat-header-cell *matHeaderCellDef> Casa </th>
+          <td mat-cell *matCellDef="let p"> {{ p.house_id?.address }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="month">
+          <th mat-header-cell *matHeaderCellDef> Mes </th>
+          <td mat-cell *matCellDef="let p"> <b>{{ p.month_covered }}</b> </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef> Monto </th>
+          <td mat-cell *matCellDef="let p"> {{ p.amount | currency }} </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Estatus </th>
+          <td mat-cell *matCellDef="let p">
+            <span class="status-badge" [ngClass]="p.status">
+              {{ p.status | uppercase }}
+            </span>
+          </td>
+        </ng-container>
+  
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let p">
+            <button mat-flat-button color="primary" (click)="viewDetail(p)">
+              REVISAR
+            </button>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </mat-card>
+  </div>

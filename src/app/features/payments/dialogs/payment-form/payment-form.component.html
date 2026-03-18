@@ -1,0 +1,46 @@
+<h2 mat-dialog-title>Registrar Pago</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="paymentForm" class="payment-form">
+    <div class="form-row">
+      <mat-form-field appearance="outline">
+        <mat-label>Mes Cubierto</mat-label>
+        <mat-select formControlName="month_covered">
+          @for (month of months; track month) {
+            <mat-option [value]="month">{{ month }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Monto</mat-label>
+        <input matInput type="number" formControlName="amount" placeholder="0.00">
+        <span matPrefix>$&nbsp;</span>
+      </mat-form-field>
+    </div>
+
+    <div class="upload-area" (click)="fileInput.click()" [class.has-preview]="imagePreview()">
+      <input type="file" #fileInput hidden (change)="onFileSelected($event)" accept="image/*">
+      
+      @if (imagePreview()) {
+        <img [src]="imagePreview()" alt="Preview" class="preview-img">
+        <div class="change-overlay">
+          <mat-icon>cached</mat-icon>
+          <span>Cambiar Comprobante</span>
+        </div>
+      } @else {
+        <mat-icon class="upload-icon">add_a_photo</mat-icon>
+        <p>Haz clic para subir la foto del comprobante</p>
+      }
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>CANCELAR</button>
+  <button mat-flat-button color="primary" 
+          [disabled]="paymentForm.invalid || !selectedFile" 
+          (click)="submit()">
+    ENVIAR COMPROBANTE
+  </button>
+</mat-dialog-actions>

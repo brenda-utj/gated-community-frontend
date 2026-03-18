@@ -1,0 +1,69 @@
+<h2 mat-dialog-title>
+    <mat-icon color="primary">{{ isEditMode() ? 'edit_location' : 'add_location_alt' }}</mat-icon> 
+    {{ isEditMode() ? 'Editar' : 'Nuevo' }} Fraccionamiento
+  </h2>
+  
+  <mat-dialog-content>
+    <form [formGroup]="complexForm" class="form-container">
+      
+      <p class="section-title">Detalles del Inmueble</p>
+      
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre del Complejo</mat-label>
+        <input matInput formControlName="complex_name" placeholder="Ej. Residencial Arboledas">
+        <mat-icon matSuffix>domain</mat-icon>
+      </mat-form-field>
+  
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Dirección</mat-label>
+        <textarea matInput formControlName="address" rows="2" placeholder="Calle, número, colonia..."></textarea>
+        <mat-icon matSuffix>location_on</mat-icon>
+      </mat-form-field>
+  
+      @if (!isEditMode()) {
+        <mat-divider class="my-20"></mat-divider>
+        <p class="section-title">Usuario Administrador Principal</p>
+        
+        <div class="row">
+          <mat-form-field appearance="outline">
+            <mat-label>Nombre(s)</mat-label>
+            <input matInput formControlName="admin_first_name">
+          </mat-form-field>
+  
+          <mat-form-field appearance="outline">
+            <mat-label>Apellido(s)</mat-label>
+            <input matInput formControlName="admin_last_name">
+          </mat-form-field>
+        </div>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email de Administración</mat-label>
+          <input matInput formControlName="admin_email" type="email" placeholder="admin@correo.com">
+          <mat-icon matSuffix>email</mat-icon>
+        </mat-form-field>
+  
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Contraseña Temporal</mat-label>
+          <input matInput formControlName="admin_password" type="password">
+          <mat-icon matSuffix>lock</mat-icon>
+        </mat-form-field>
+      }
+  
+    </form>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close [disabled]="isLoading()">CANCELAR</button>
+    <button mat-flat-button 
+            color="primary" 
+            (click)="onSubmit()" 
+            [disabled]="complexForm.invalid || isLoading()">
+      @if (isLoading()) {
+        <span class="loading-btn">
+          <mat-icon class="spinner">sync</mat-icon> GUARDANDO...
+        </span>
+      } @else {
+        <span>{{ isEditMode() ? 'GUARDAR CAMBIOS' : 'REGISTRAR TODO' }}</span>
+      }
+    </button>
+  </mat-dialog-actions>
