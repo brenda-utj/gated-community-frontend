@@ -50,6 +50,10 @@
           <mat-icon matListItemIcon>payments</mat-icon>
           <span matListItemTitle>Mis Pagos</span>
         </a>
+        <a mat-list-item routerLink="/dashboard/resident/reports" routerLinkActive="active-link">
+          <mat-icon matListItemIcon>assignment_add</mat-icon>
+          <span matListItemTitle>Mis Reportes</span>
+        </a>
       </ng-container>
     
       <ng-container *hasRole="['security']">
@@ -80,7 +84,7 @@
     </button>
     
     <div class="brand-section">
-      <span>Gated Community App</span>
+      <span>PRIVIUM</span>
       
       @if (hasLocationInfo()) {
         <div class="location-chips">

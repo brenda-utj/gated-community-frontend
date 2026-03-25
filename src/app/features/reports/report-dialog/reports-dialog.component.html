@@ -1,0 +1,59 @@
+<h2 mat-dialog-title>Nuevo Reporte</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="form" class="form-container">
+
+    <!-- Asunto -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Asunto</mat-label>
+      <input matInput formControlName="subject" />
+    </mat-form-field>
+
+    <!-- Descripción -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Descripción</mat-label>
+      <textarea matInput rows="4" formControlName="description"></textarea>
+    </mat-form-field>
+
+    <!-- Imagen -->
+    <div class="image-upload">
+
+      @if (!previewUrl) {
+        <label class="upload-btn">
+          <mat-icon>photo_camera</mat-icon>
+          Agregar foto (opcional)
+          <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
+        </label>
+      }
+
+      @if (previewUrl) {
+        <div class="preview-container">
+          <img [src]="previewUrl" alt="preview" />
+
+          <button mat-icon-button color="warn" (click)="removeImage()">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+      }
+
+    </div>
+
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>CANCELAR</button>
+
+  <button 
+    mat-flat-button 
+    color="primary" 
+    (click)="send()" 
+    [disabled]="form.invalid || loading">
+
+    @if (!loading) {
+      ENVIAR
+    } @else {
+      Enviando...
+    }
+  </button>
+</mat-dialog-actions>

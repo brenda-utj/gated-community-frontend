@@ -3,12 +3,13 @@ import { AuthResponse, User } from "../../models/user.model";
 import { inject, Injectable, signal } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
+import { environment } from "../../../environments/environment";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private http = inject(HttpClient);
   private router = inject(Router);
-  
+  private apiUri = environment.apiUrl;
   currentUser = signal<User | null>(null);
 
   constructor() {
@@ -27,7 +28,7 @@ export class AuthService {
   }
 
   login(credentials: any) {
-    return this.http.post<AuthResponse>('/api/auth/login', credentials).pipe(
+    return this.http.post<AuthResponse>(`${this.apiUri}/auth/login`, credentials).pipe(
       tap((res: AuthResponse) => {
         localStorage.setItem('token', res.token);
         // IMPORTANTE: Guardamos también el objeto usuario

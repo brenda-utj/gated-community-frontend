@@ -63,31 +63,60 @@ export class VisitsComponent implements OnInit {
     return colors[status] || 'default';
   }
 
-  async shareQR(visit: any) {
-    const qrElement = document.getElementsByTagName('canvas')[0]; // Ocupamos capturar el canvas generado
-    if (!qrElement) return;
-  
-    const dataUrl = qrElement.toDataURL('image/png');
+  getStatusLabel(status: string): string {
+  const labels: any = {
+    pending: 'Pendiente',
+    entered: 'Ingresó',
+    exited: 'Salió',
+    cancelled: 'Cancelado'
+  };
+
+  return labels[status] || status;
+}
+
+  async shareQR(qrElementRef: any, visit: any) {
+    const canvas: HTMLCanvasElement = qrElementRef.qrcElement.nativeElement.querySelector('canvas');
+
+    if (!canvas) return;
+
+    const dataUrl = canvas.toDataURL('image/png');
+
     const blob = await (await fetch(dataUrl)).blob();
-    const file = new File([blob], `Pase-${visit.visitor_name}.png`, { type: 'image/png' });
-  
-    // Verificar si el navegador soporta compartir archivos (Mobile/Chrome)
-    if (navigator.share) {
+    const file = new File([blob], `Pase-${visit.visitor_name}.png`, {
+      type: 'image/png'
+    });
+
+    // Compartir (WhatsApp, etc.)
+    if (navigator.share && navigator.canShare?.({ files: [file] })) {
       try {
         await navigator.share({
-          title: 'Mi Pase de Acceso',
-          text: `Hola ${visit.visitor_name}, este es tu pase de acceso para mi fraccionamiento.`,
+          title: 'Pase de acceso',
+          text: `Hola ${visit.visitor_name}, este es tu pase de acceso.`,
           files: [file]
         });
       } catch (err) {
-        console.log('Error compartiendo:', err);
+        console.log('Cancelado o error:', err);
       }
     } else {
-      // Fallback: Descargar la imagen
+      //Fallback: descargar
       const link = document.createElement('a');
       link.download = `Acceso-${visit.visitor_name}.png`;
       link.href = dataUrl;
       link.click();
     }
+  }
+
+  downloadQR(qrElementRef: any, visit: any) {
+    const canvas: HTMLCanvasElement =
+      qrElementRef.qrcElement.nativeElement.querySelector('canvas');
+
+    if (!canvas) return;
+
+    const dataUrl = canvas.toDataURL('image/png');
+
+    const link = document.createElement('a');
+    link.href = dataUrl;
+    link.download = `Pase-${visit.visitor_name}.png`;
+    link.click();
   }
 }

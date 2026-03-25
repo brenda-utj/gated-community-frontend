@@ -17,6 +17,10 @@ export const RESIDENT_ROUTES: Routes = [
         loadComponent: () => import('../payments/payment-list/payment-list.component').then(m => m.PaymentListComponent)
       },
       {
+        path: 'reports',
+        loadComponent: () => import('../reports/reports-list/reports-list.component').then(m => m.ReportsListComponent)
+      },
+      {
         path: '',
         redirectTo: 'house',
         pathMatch: 'full'

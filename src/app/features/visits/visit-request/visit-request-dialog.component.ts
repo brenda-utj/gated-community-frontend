@@ -8,6 +8,7 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { VisitService } from '../../../services/visit.service';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-visit-request-dialog',
@@ -29,6 +30,7 @@ export class VisitRequestDialogComponent {
   private readonly fb = inject(FormBuilder);
   private readonly visitService = inject(VisitService);
   private readonly dialogRef = inject(MatDialogRef<VisitRequestDialogComponent>);
+  private snackBar = inject(MatSnackBar);
 
   visitForm = this.fb.nonNullable.group({
     visitor_name: ['', Validators.required],
@@ -36,16 +38,23 @@ export class VisitRequestDialogComponent {
     visit_date: [new Date(), Validators.required]
   });
 
-  send(): void {
-    if (this.visitForm.invalid) {
-      this.visitForm.markAllAsTouched();
-      return;
-    }
+ send() {
+  if (this.visitForm.invalid) return;
 
-    this.visitService.create(this.visitForm.getRawValue()).subscribe({
-      next: () => this.dialogRef.close(true),
-      error: (err) => console.error('Error creando visita', err)
-    });
-  }
+  this.visitService.create(this.visitForm.value).subscribe({
+    next: (res) => {
+      this.snackBar.open('Invitación generada con éxito', 'Cerrar', {
+        duration: 3000
+      });
+
+      this.dialogRef.close(true); 
+    },
+    error: (err) => {
+      this.snackBar.open('Error al generar la invitación', 'Cerrar', {
+        duration: 3000
+      });
+    }
+  });
+ }
 }
 

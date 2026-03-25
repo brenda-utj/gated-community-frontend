@@ -1,0 +1,26 @@
+:host {
+  .status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+
+  &.open {
+    background: #fff3cd;
+    color: #856404;
+  }
+
+  &.in_progress {
+    background: #cce5ff;
+    color: #004085;
+  }
+
+  &.closed {
+    background: #d4edda;
+    color: #155724;
+  }
+}
+}
