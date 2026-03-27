@@ -8,6 +8,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { PaymentService } from '../../../services/payment.service';
 import { PaymentFormComponent } from '../dialogs/payment-form/payment-form.component';
+import { ReceiptViewerDialogComponent } from '../../../receipt-viewer-dialog/receipt-viewer-dialog.component';
 
 @Component({
   selector: 'app-payment-list',
@@ -63,4 +64,17 @@ export class PaymentListComponent implements OnInit {
       }
     });
   }
+
+  viewReceipt(payment: any): void {
+  this.dialog.open(ReceiptViewerDialogComponent, {
+    width: '500px',
+    data: {
+      base64: payment.receipt_base64,
+      mime:   payment.receipt_mime,
+      status: payment.status,
+      month:  payment.month_covered,
+      createdAt: payment.createdAt
+    }
+  });
+}
 }

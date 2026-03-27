@@ -1,8 +1,9 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { VisitService, Visit } from '../../services/visit.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { VisitRequestDialogComponent } from './visit-request/visit-request-dialog.component';
+import { MatPaginatorModule, PageEvent } from '@angular/material/paginator'; // ✅
 
 // Material
 import { MatButtonModule } from '@angular/material/button';
@@ -23,6 +24,7 @@ import { QRCodeModule } from 'angularx-qrcode';
     MatChipsModule,
     MatDialogModule,
     MatTooltipModule,
+    MatPaginatorModule, // ✅
     QRCodeModule
   ],
   templateUrl: './visits.component.html',
@@ -30,16 +32,25 @@ import { QRCodeModule } from 'angularx-qrcode';
 })
 export class VisitsComponent implements OnInit {
   private visitService = inject(VisitService);
-  private dialog = inject(MatDialog);
+  private dialog       = inject(MatDialog);
 
-  visits = this.visitService.visits;
+  visits      = this.visitService.visits;
+  totalVisits = this.visitService.totalVisits; // ✅ signal del servicio
+  pageSize    = 6;
+  currentPage = signal(0);
 
   ngOnInit() {
     this.loadVisits();
   }
 
-  loadVisits() {
-    this.visitService.getHistory().subscribe();
+  loadVisits(pageIndex: number = 0) {
+    this.visitService.getVisits(pageIndex + 1, this.pageSize).subscribe();
+  }
+
+  // ✅ Nuevo
+  onPageChange(event: PageEvent) {
+    this.currentPage.set(event.pageIndex);
+    this.loadVisits(event.pageIndex);
   }
 
   openRequestDialog() {
@@ -50,43 +61,36 @@ export class VisitsComponent implements OnInit {
   }
 
   cancelVisit(id: string): void {
-    this.visitService.cancel(id).subscribe(() => this.loadVisits());
+    this.visitService.cancel(id).subscribe(() => this.loadVisits(this.currentPage()));
   }
 
   getStatusColor(status: string): string {
     const colors: any = {
-      'pending': 'primary',
-      'entered': 'accent',
-      'exited': 'warn',
+      'pending':   'primary',
+      'entered':   'accent',
+      'exited':    'warn',
       'cancelled': 'default'
     };
     return colors[status] || 'default';
   }
 
   getStatusLabel(status: string): string {
-  const labels: any = {
-    pending: 'Pendiente',
-    entered: 'Ingresó',
-    exited: 'Salió',
-    cancelled: 'Cancelado'
-  };
-
-  return labels[status] || status;
-}
+    const labels: any = {
+      pending:   'Pendiente',
+      entered:   'Ingresó',
+      exited:    'Salió',
+      expired:   'Expirado',
+      cancelled: 'Cancelado'
+    };
+    return labels[status] || status;
+  }
 
   async shareQR(qrElementRef: any, visit: any) {
     const canvas: HTMLCanvasElement = qrElementRef.qrcElement.nativeElement.querySelector('canvas');
-
     if (!canvas) return;
-
     const dataUrl = canvas.toDataURL('image/png');
-
     const blob = await (await fetch(dataUrl)).blob();
-    const file = new File([blob], `Pase-${visit.visitor_name}.png`, {
-      type: 'image/png'
-    });
-
-    // Compartir (WhatsApp, etc.)
+    const file = new File([blob], `Pase-${visit.visitor_name}.png`, { type: 'image/png' });
     if (navigator.share && navigator.canShare?.({ files: [file] })) {
       try {
         await navigator.share({
@@ -98,7 +102,6 @@ export class VisitsComponent implements OnInit {
         console.log('Cancelado o error:', err);
       }
     } else {
-      //Fallback: descargar
       const link = document.createElement('a');
       link.download = `Acceso-${visit.visitor_name}.png`;
       link.href = dataUrl;
@@ -107,13 +110,9 @@ export class VisitsComponent implements OnInit {
   }
 
   downloadQR(qrElementRef: any, visit: any) {
-    const canvas: HTMLCanvasElement =
-      qrElementRef.qrcElement.nativeElement.querySelector('canvas');
-
+    const canvas: HTMLCanvasElement = qrElementRef.qrcElement.nativeElement.querySelector('canvas');
     if (!canvas) return;
-
     const dataUrl = canvas.toDataURL('image/png');
-
     const link = document.createElement('a');
     link.href = dataUrl;
     link.download = `Pase-${visit.visitor_name}.png`;

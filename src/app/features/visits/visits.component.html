@@ -70,4 +70,16 @@
     </div>
     }
   </div>
+  <!-- ✅ Paginador -->
+  @if (totalVisits() > pageSize) {
+    <mat-paginator
+      [length]="totalVisits()"
+      [pageSize]="pageSize"
+      [pageIndex]="currentPage()"
+      [hidePageSize]="true"
+      (page)="onPageChange($event)"
+      aria-label="Seleccionar página">
+    </mat-paginator>
+  }
 </div>
+

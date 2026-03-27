@@ -1,0 +1,26 @@
+<h2 mat-dialog-title style="text-align:center;">Detalles del comprobante</h2>
+
+<mat-dialog-content>
+
+  <p style="text-align:center; margin: 0 0 12px; font-weight:600;">
+    Mes que cubre: {{ data.month }}
+  </p>
+
+  <div class="status-row">
+  <span class="status-badge" [attr.data-status]="data.status">
+    <span class="status-dot"></span>
+    Estado del pago: {{ getStatusLabel(data.status) }}
+  </span>
+</div>
+
+  <img [src]="imageSrc" alt="Comprobante" class="receipt-img">
+
+  <p style="text-align:center; margin: 12px 0 0; font-weight:600;">
+    Fecha de envío: {{ data.createdAt | date:'dd/MM/yyyy' }}
+  </p>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button (click)="dialogRef.close()">Cerrar</button>
+</mat-dialog-actions>

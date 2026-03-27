@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { PaymentService } from '../../../../services/payment.service';
 import { Component, inject, signal } from '@angular/core';
 
@@ -20,7 +21,8 @@ import { Component, inject, signal } from '@angular/core';
     MatInputModule, 
     MatSelectModule, 
     MatButtonModule, 
-    MatIconModule
+    MatIconModule,
+    MatSnackBarModule
   ],
   templateUrl: './payment-form.component.html',
   styleUrls: ['./payment-form.component.scss']
@@ -29,6 +31,7 @@ export class PaymentFormComponent {
   private readonly fb = inject(FormBuilder);
   private readonly paymentService = inject(PaymentService);
   private readonly dialogRef = inject(MatDialogRef<PaymentFormComponent>);
+  private readonly snackBar = inject(MatSnackBar);
 
   selectedFile: File | null = null;
   imagePreview = signal<string | null>(null); // Previsualización local
@@ -57,14 +60,22 @@ export class PaymentFormComponent {
     if (this.paymentForm.invalid || !this.selectedFile) return;
 
     const formData = new FormData();
-    // 'receipt' debe coincidir con upload.single("receipt") del back
     formData.append('receipt', this.selectedFile);
     formData.append('amount', this.paymentForm.getRawValue().amount);
     formData.append('month_covered', this.paymentForm.getRawValue().month_covered);
 
     this.paymentService.uploadPayment(formData).subscribe({
-      next: () => this.dialogRef.close(true),
-      error: (err: any) => console.error('Error al subir pago', err)
+      next: () => {
+        this.snackBar.open('Comprobante enviado correctamente', 'Cerrar', { duration: 3000 });
+        this.dialogRef.close(true);
+      },
+      error: (err: any) => {
+        const msg = err?.error?.message || 'Error al subir el comprobante';
+        this.snackBar.open(msg, 'Cerrar', {
+          duration: 5000,
+          panelClass: 'snack-error' // opcional, para estilizarlo en rojo
+        });
+      }
     });
   }
 }

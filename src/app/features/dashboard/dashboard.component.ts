@@ -54,9 +54,9 @@ export class DashboardComponent {
   }
 
   loadVisits() {
-    this.visitService.getHistory().subscribe({
-      next: (res) => console.log('Visitas:', res),
-      error: (err) => console.error(err)
+    this.visitService.getVisits().subscribe({
+      next: (res: any) => console.log('Visitas:', res),
+      error: (err: any) => console.error(err)
     });
   }
 }
