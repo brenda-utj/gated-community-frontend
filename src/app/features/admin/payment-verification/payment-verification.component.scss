@@ -1,328 +1,173 @@
-// ── Variables ────────────────────────────────────────────────────────────────
-$surface:   #f8fafc;
-$card-bg:   #ffffff;
-$border:    #e2e8f0;
-$text-main: #0f172a;
-$text-sub:  #64748b;
+// ── Variables ──
+$surface:#f8fafc;
+$card-bg:#fff;
+$border:#e2e8f0;
+$text-main:#0f172a;
+$text-sub:#64748b;
 
-// ── Layout ───────────────────────────────────────────────────────────────────
-.page-container {
-  padding: 32px;
-  background: $surface;
-  min-height: 100vh;
+// ── Layout ──
+.page-container{padding:32px;background:$surface;min-height:100vh}
+
+// ── Header ──
+.admin-header{
+  margin-bottom:28px;
+  h1{margin:0;font-size:26px;font-weight:800;color:$text-main;letter-spacing:-.5px}
+  p{margin:4px 0 0;font-size:14px;color:$text-sub}
 }
 
-// ── Header ───────────────────────────────────────────────────────────────────
-.admin-header {
-  margin-bottom: 28px;
+// ── Summary ──
+.summary-strip{display:flex;gap:16px;margin-bottom:24px;flex-wrap:wrap}
 
-  h1 {
-    margin: 0;
-    font-size: 26px;
-    font-weight: 800;
-    color: $text-main;
-    letter-spacing: -0.5px;
+.summary-chip{
+  display:flex;align-items:center;gap:12px;
+  background:$card-bg;border:1px solid $border;border-radius:14px;
+  padding:14px 20px;flex:1;min-width:140px;
+  box-shadow:0 1px 3px rgba(0,0,0,.04);
+
+  mat-icon{
+    font-size:24px;width:24px;height:24px;
+    border-radius:8px;padding:8px
   }
 
-  p {
-    margin: 4px 0 0;
-    color: $text-sub;
-    font-size: 14px;
+  .chip-data{
+    display:flex;flex-direction:column;line-height:1.2;
+    .chip-value{font-size:22px;font-weight:800;color:$text-main}
+    .chip-label{font-size:12px;color:$text-sub;text-transform:uppercase;letter-spacing:.5px}
   }
+
+  &.total mat-icon{background:#f1f5f9;color:#475569}
+  &.pending mat-icon{background:#fffbeb;color:#d97706}
+  &.approved mat-icon{background:#f0fdf4;color:#16a34a}
+  &.rejected mat-icon{background:#fff1f2;color:#e11d48}
 }
 
-// ── Summary strip ─────────────────────────────────────────────────────────────
-.summary-strip {
-  display: flex;
-  gap: 16px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
+// ── Card ──
+.table-card{
+  border-radius:16px!important;
+  border:1px solid $border!important;
+  box-shadow:0 1px 3px rgba(0,0,0,.02),0 8px 24px rgba(0,0,0,.04)!important;
+  overflow:hidden;padding:0!important
 }
 
-.summary-chip {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: $card-bg;
-  border: 1px solid $border;
-  border-radius: 14px;
-  padding: 14px 20px;
-  flex: 1;
-  min-width: 140px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+// ── Toolbar ──
+.table-tools{
+  display:flex;gap:16px;align-items:center;
+  padding:20px 24px;flex-wrap:wrap;
+  border-bottom:1px solid $border;
 
-  mat-icon {
-    font-size: 24px;
-    width: 24px;
-    height: 24px;
-    border-radius: 8px;
-    padding: 8px;
-  }
-
-  .chip-data {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.2;
-
-    .chip-value {
-      font-size: 22px;
-      font-weight: 800;
-      color: $text-main;
-    }
-
-    .chip-label {
-      font-size: 12px;
-      color: $text-sub;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-  }
-
-  &.total    mat-icon { background: #f1f5f9; color: #475569; }
-  &.pending  mat-icon { background: #fffbeb; color: #d97706; }
-  &.approved mat-icon { background: #f0fdf4; color: #16a34a; }
-  &.rejected mat-icon { background: #fff1f2; color: #e11d48; }
+  .search-field{flex:2;min-width:240px}
+  .status-filter{flex:1;min-width:180px}
 }
 
-// ── Table card ────────────────────────────────────────────────────────────────
-.table-card {
-  border-radius: 16px !important;
-  border: 1px solid $border !important;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 8px 24px rgba(0,0,0,0.04) !important;
-  overflow: hidden;
-  padding: 0 !important;
+// ── States ──
+.loading-state,.empty-state{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:80px 24px;font-size:14px
 }
+.loading-state{gap:16px;color:$text-sub}
 
-// ── Toolbar ───────────────────────────────────────────────────────────────────
-.table-tools {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  padding: 20px 24px;
-  flex-wrap: wrap;
-  border-bottom: 1px solid $border;
+.empty-state{
+  gap:12px;text-align:center;
 
-  .search-field {
-    flex: 2;
-    min-width: 240px;
+  .empty-icon-wrap{
+    width:72px;height:72px;border-radius:20px;
+    background:#f1f5f9;display:flex;align-items:center;justify-content:center;
+    margin-bottom:8px;
+
+    mat-icon{font-size:36px;width:36px;height:36px;color:#94a3b8}
   }
 
-  .status-filter {
-    flex: 1;
-    min-width: 180px;
+  .empty-title{margin:0;font-size:17px;font-weight:700;color:$text-main}
+  .empty-sub{margin:0;font-size:14px;color:$text-sub;max-width:320px}
+
+  button{margin-top:8px;border-radius:8px!important;font-weight:600!important}
+}
+
+// ── Table ──
+.table-responsive{width:100%;overflow-x:auto}
+
+.modern-table{
+  width:100%;
+
+  .mat-mdc-header-cell{
+    background:#f8fafc;color:#475569;
+    font-weight:700;font-size:12px;
+    text-transform:uppercase;letter-spacing:.6px;
+    padding:16px 20px!important;
+    border-bottom:1px solid $border
+  }
+
+  .mat-mdc-cell{
+    padding:14px 20px!important;
+    border-bottom:1px solid #f1f5f9
+  }
+
+  .data-row{
+    transition:background .15s ease;
+    &:hover{background:#f8fafc}
+    &:last-child td{border-bottom:none}
   }
 }
 
-// ── Loading ───────────────────────────────────────────────────────────────────
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 80px 24px;
-  gap: 16px;
-  color: $text-sub;
-  font-size: 14px;
+// ── Cells ──
+.resident-cell{
+  display:flex;align-items:center;gap:12px;
+
+  .avatar{
+    width:40px;height:40px;border-radius:10px;
+    display:flex;align-items:center;justify-content:center;
+    font-weight:700;font-size:13px;
+    background:#e0e7ff;color:#3730a3;flex-shrink:0;
+
+    &[data-status="pending"]{background:#fef3c7;color:#92400e}
+    &[data-status="approved"]{background:#d1fae5;color:#065f46}
+    &[data-status="rejected"]{background:#fee2e2;color:#991b1b}
+  }
+
+  .resident-name{font-weight:600;font-size:14px;color:$text-main}
 }
 
-// ── Table ─────────────────────────────────────────────────────────────────────
-.table-responsive {
-  width: 100%;
-  overflow-x: auto;
+.house-tag,.month-tag{
+  font-size:13px
 }
 
-.modern-table {
-  width: 100%;
+.house-tag{
+  display:inline-flex;align-items:center;gap:6px;color:$text-sub;
 
-  .mat-mdc-header-cell {
-    background: #f8fafc;
-    color: #475569;
-    font-weight: 700;
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    padding: 16px 20px !important;
-    border-bottom: 1px solid $border;
-  }
-
-  .mat-mdc-cell {
-    padding: 14px 20px !important;
-    border-bottom: 1px solid #f1f5f9;
-  }
-
-  .data-row {
-    transition: background 0.15s ease;
-    &:hover { background: #f8fafc; }
-    &:last-child td { border-bottom: none; }
-  }
+  mat-icon{font-size:16px;width:16px;height:16px;color:#94a3b8}
 }
 
-// ── Resident cell ─────────────────────────────────────────────────────────────
-.resident-cell {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-
-  .avatar {
-    width: 40px;
-    height: 40px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 700;
-    font-size: 13px;
-    background: #e0e7ff;
-    color: #3730a3;
-    flex-shrink: 0;
-
-    &[data-status="pending"]  { background: #fef3c7; color: #92400e; }
-    &[data-status="approved"] { background: #d1fae5; color: #065f46; }
-    &[data-status="rejected"] { background: #fee2e2; color: #991b1b; }
-  }
-
-  .resident-name {
-    font-weight: 600;
-    font-size: 14px;
-    color: $text-main;
-  }
+.month-tag{
+  background:#f1f5f9;color:#334155;
+  padding:4px 10px;border-radius:6px;font-weight:600
 }
 
-// ── House tag ─────────────────────────────────────────────────────────────────
-.house-tag {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  color: $text-sub;
-  font-size: 13px;
+// ── Misc ──
+.amount-text{font-size:15px;font-weight:700;color:$text-main;font-variant-numeric:tabular-nums}
 
-  mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-    color: #94a3b8;
-  }
+.status-badge{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:5px 12px;border-radius:20px;
+  font-size:12px;font-weight:700;
+
+  .status-dot{width:7px;height:7px;border-radius:50%}
+
+  &.status-pending{background:#fffbeb;color:#b45309;border:1px solid #fde68a}
+  &.status-approved{background:#f0fdf4;color:#15803d;border:1px solid #bbf7d0}
+  &.status-rejected{background:#fff1f2;color:#be123c;border:1px solid #fecdd3}
+
+  &.status-pending .status-dot{background:#f59e0b}
+  &.status-approved .status-dot{background:#22c55e}
+  &.status-rejected .status-dot{background:#f43f5e}
 }
 
-// ── Month tag ─────────────────────────────────────────────────────────────────
-.month-tag {
-  display: inline-block;
-  background: #f1f5f9;
-  color: #334155;
-  padding: 4px 10px;
-  border-radius: 6px;
-  font-size: 13px;
-  font-weight: 600;
-}
+.col-actions{text-align:right!important}
 
-// ── Amount ────────────────────────────────────────────────────────────────────
-.amount-text {
-  font-size: 15px;
-  font-weight: 700;
-  color: $text-main;
-  font-variant-numeric: tabular-nums;
-}
+.review-btn{
+  border-radius:8px!important;
+  font-size:13px!important;
+  font-weight:600!important;
+  gap:4px;
 
-// ── Status badge ──────────────────────────────────────────────────────────────
-.status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 700;
-
-  .status-dot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    flex-shrink: 0;
-  }
-
-  &.status-pending {
-    background: #fffbeb;
-    color: #b45309;
-    border: 1px solid #fde68a;
-    .status-dot { background: #f59e0b; }
-  }
-
-  &.status-approved {
-    background: #f0fdf4;
-    color: #15803d;
-    border: 1px solid #bbf7d0;
-    .status-dot { background: #22c55e; }
-  }
-
-  &.status-rejected {
-    background: #fff1f2;
-    color: #be123c;
-    border: 1px solid #fecdd3;
-    .status-dot { background: #f43f5e; }
-  }
-}
-
-// ── Actions ───────────────────────────────────────────────────────────────────
-.col-actions { text-align: right !important; }
-
-.review-btn {
-  border-radius: 8px !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  gap: 4px;
-
-  mat-icon {
-    font-size: 16px;
-    width: 16px;
-    height: 16px;
-  }
-}
-
-// ── Empty state ───────────────────────────────────────────────────────────────
-.empty-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  padding: 80px 24px;
-  gap: 12px;
-  text-align: center;
-
-  .empty-icon-wrap {
-    width: 72px;
-    height: 72px;
-    border-radius: 20px;
-    background: #f1f5f9;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 8px;
-
-    mat-icon {
-      font-size: 36px;
-      width: 36px;
-      height: 36px;
-      color: #94a3b8;
-    }
-  }
-
-  .empty-title {
-    margin: 0;
-    font-size: 17px;
-    font-weight: 700;
-    color: $text-main;
-  }
-
-  .empty-sub {
-    margin: 0;
-    font-size: 14px;
-    color: $text-sub;
-    max-width: 320px;
-  }
-
-  button {
-    margin-top: 8px;
-    border-radius: 8px !important;
-    font-weight: 600 !important;
-  }
+  mat-icon{font-size:16px;width:16px;height:16px}
 }
