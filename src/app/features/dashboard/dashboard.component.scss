@@ -1,35 +1,38 @@
 .dashboard-container {
-    max-width: 1200px;
-    margin: 0 auto;
-  
-    .dashboard-header {
-      margin-bottom: 2rem;
-      h1 { font-size: 2rem; margin-bottom: 0.5rem; color: #333; }
-      p { color: #666; }
-    }
-  
-    .grid-layout {
-      display: grid;
-      gap: 1.5rem;
-      // Desktop: 3 columnas, Tablet: 2, Mobile: 1
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    }
-  
-    mat-card {
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-  
-      .status-ok { color: #2e7d32; }
-      .amount { color: #1976d2; font-size: 1.8rem; }
-    }
-  
-    .full-width { grid-column: 1 / -1; }
-  
-    .center-content {
-      text-align: center;
-      padding: 2rem 0;
-      .scan-btn { margin-top: 1rem; }
-    }
-  }
+  padding: 20px;
+}
+
+.grid-layout {
+  display: grid;
+  gap: 16px;
+}
+
+.charts-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-top: 20px;
+}
+
+.chart-card {
+  padding: 16px;
+  border-radius: 16px;
+}
+
+.chart-card {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* 🥧 PIE CHART → círculo perfecto */
+.pie-canvas {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+/* 📊 BAR CHART → más grande */
+.bar-canvas {
+  width: 100% !important;
+  height: 350px !important;
+}

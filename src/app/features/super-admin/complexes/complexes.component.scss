@@ -1,132 +1,161 @@
 .loading-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: 300px; // Altura aproximada para que no salte el layout
-    gap: 16px;
-    color: #666;
-  }
-  
-  // ... tus estilos anteriores de .complex-grid y .complex-card
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 300px;
+  gap: 16px;
+  color: #666;
+}
 
 .page-container {
-    padding: 24px;
-  
-    .header-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 32px;
-      h1 { margin: 0; font-weight: 700; }
-      p { color: #666; margin: 0; }
-    }
-  
-    .complex-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-      gap: 24px;
-    }
-  
-    .complex-card {
-      position: relative;
-      overflow: hidden;
-    
-      .status-badge {
-        position: absolute;
-        top: 10px;
-        right: -30px;
-        transform: rotate(45deg);
-        padding: 4px 40px;
-        font-size: 10px;
-        font-weight: bold;
-        color: white;
-        background-color: #ccc; // Default
-    
-        &.active {
-          background-color: #4caf50; // Verde para activos
-        }
-    
-        &.pending {
-          background-color: #ff9800; // Naranja
-        }
-      }
-    }
-    
-    .id-text {
-      font-size: 11px;
-      color: #888;
-      font-family: monospace;
-    }
-    
-    .info-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      margin-top: 8px;
-      
-      mat-icon {
-        font-size: 18px;
-        width: 18px;
-        height: 18px;
-      }
-    }
-  
-    .empty-state {
-      grid-column: 1 / -1;
-      text-align: center;
-      padding: 100px 0;
-      color: #999;
-      mat-icon { font-size: 64px; width: 64px; height: 64px; margin-bottom: 16px; }
+  padding: 24px;
+
+  .header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+    h1 { margin: 0; font-weight: 700; }
+    p { color: #666; margin: 0; }
+  }
+
+  // ── Buscador ────────────────────────────────────────────────────────────────
+  .search-row {
+    margin-bottom: 24px;
+
+    .search-field {
+      width: 100%;
+      max-width: 420px;
     }
   }
 
-  .info-row {
+  // ── Grid de cards ────────────────────────────────────────────────────────────
+  .complex-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
+
+  .complex-card {
+    position: relative;
+    overflow: hidden;
+  }
+
+  // ── Botón "Mostrar más" ──────────────────────────────────────────────────────
+  .load-more-row {
     display: flex;
-    align-items: flex-start;
-    gap: 12px;
-    margin-bottom: 12px;
-  
-    mat-icon {
-      font-size: 20px;
-      width: 20px;
-      height: 20px;
+    justify-content: center;
+    margin-top: 32px;
+
+    button {
+      min-width: 200px;
+      border-radius: 24px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
     }
   }
-  
-  .admin-info {
-    display: flex;
-    flex-direction: column;
-    
-    .label {
-      font-size: 11px;
-      color: #777;
-      text-transform: uppercase;
-    }
-    
-    .value {
-      font-size: 14px;
-      font-weight: 500;
-    }
-  
-    .admin-email {
-      display: block;
-      color: #5c6bc0;
-      font-size: 12px;
-    }
+
+  // ── Estado vacío ─────────────────────────────────────────────────────────────
+  .empty-state {
+    grid-column: 1 / -1;
+    text-align: center;
+    padding: 100px 0;
+    color: #999;
+    mat-icon { font-size: 64px; width: 64px; height: 64px; margin-bottom: 16px; }
   }
-  
-  .unassigned {
-    color: #f44336;
-    font-style: italic;
+
+  .id-text {
+    font-size: 11px;
+    color: #888;
+    font-family: monospace;
   }
-  
-  .card-divider {
-    margin: 12px 0;
-    opacity: 0.5;
+}
+
+// ── Info rows ──────────────────────────────────────────────────────────────────
+.info-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
   }
-  
-  .footer-info {
+}
+
+.admin-info {
+  display: flex;
+  flex-direction: column;
+
+  .label {
+    font-size: 11px;
+    color: #777;
+    text-transform: uppercase;
+  }
+
+  .value {
+    font-size: 14px;
+    font-weight: 500;
+  }
+
+  .admin-email {
+    display: block;
+    color: #5c6bc0;
     font-size: 12px;
-    color: #666;
   }
+}
+
+.unassigned {
+  color: #f44336;
+  font-style: italic;
+}
+
+.card-divider {
+  margin: 12px 0;
+  opacity: 0.5;
+}
+
+.footer-info {
+  font-size: 12px;
+  color: #666;
+}
+
+// ── Status badge ───────────────────────────────────────────────────────────────
+.status-badge {
+  position: absolute;
+  top: 10px;
+  right: -30px;
+  transform: rotate(45deg);
+  padding: 4px 40px;
+  font-size: 10px;
+  font-weight: bold;
+  color: white;
+  background-color: #ccc;
+
+  &.active {
+    background-color: #4caf50;
+  }
+
+  &.inactive {
+    background-color: #ff9800;
+  }
+
+  &.pending {
+    background-color: #9c27b0;
+  }
+}
+
+// ── Toggle ─────────────────────────────────────────────────────────────────────
+.toggle-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  small {
+    font-weight: 500;
+    color: #757575;
+  }
+}

@@ -3,19 +3,22 @@ import { authGuard } from './core/guards/auth.guard';
 import { roleGuard } from './core/guards/role.guard';
 
 export const routes: Routes = [
-
   // LANDING PAGE (PRIMERA PANTALLA)
   {
     path: '',
     loadComponent: () =>
-      import('./pages/landing/landing.component').then(m => m.LandingComponent)
+      import('./pages/landing/landing.component').then(
+        (m) => m.LandingComponent,
+      ),
   },
 
   // LOGIN
   {
     path: 'login',
     loadComponent: () =>
-      import('./features/auth/login/login.component').then(m => m.LoginComponent)
+      import('./features/auth/login/login.component').then(
+        (m) => m.LoginComponent,
+      ),
   },
 
   // SISTEMA (PROTEGIDO)
@@ -23,12 +26,16 @@ export const routes: Routes = [
     path: 'dashboard',
     canActivate: [authGuard],
     loadComponent: () =>
-      import('./shared/components/layout/layout.component').then(m => m.LayoutComponent),
+      import('./shared/components/layout/layout.component').then(
+        (m) => m.LayoutComponent,
+      ),
     children: [
       {
         path: '',
         loadComponent: () =>
-          import('./features/dashboard/dashboard.component').then(m => m.DashboardComponent)
+          import('./features/dashboard/dashboard.component').then(
+            (m) => m.DashboardComponent,
+          ),
       },
 
       {
@@ -36,17 +43,32 @@ export const routes: Routes = [
         canActivate: [roleGuard],
         data: { roles: ['admin', 'super_admin'] },
         loadChildren: () =>
-          import('./features/admin/admin.routes').then(m => m.ADMIN_ROUTES)
+          import('./features/admin/admin.routes').then((m) => m.ADMIN_ROUTES),
       },
-
+      // Rutas de Super Administrador
+      {
+        path: 'super',
+        canActivate: [roleGuard],
+        data: { roles: ['super_admin'] },
+        children: [
+          {
+            path: 'complexes',
+            loadComponent: () =>
+              import('./features/super-admin/complexes/complexes.component').then(
+                (m) => m.ComplexesComponent,
+              ),
+          },
+        ],
+      },
       {
         path: 'resident',
         canActivate: [roleGuard],
         data: { roles: ['resident'] },
         loadChildren: () =>
-          import('./features/resident/resident.routes').then(m => m.RESIDENT_ROUTES)
+          import('./features/resident/resident.routes').then(
+            (m) => m.RESIDENT_ROUTES,
+          ),
       },
-
       {
         path: 'security',
         canActivate: [roleGuard],
@@ -55,14 +77,15 @@ export const routes: Routes = [
           {
             path: 'scanner',
             loadComponent: () =>
-              import('./features/security/scanner/scanner.component').then(m => m.ScannerComponent)
-          }
-        ]
-      }
-    ]
+              import('./features/security/scanner/scanner.component').then(
+                (m) => m.ScannerComponent,
+              ),
+          },
+        ],
+      },
+    ],
   },
 
   // SI LA RUTA NO EXISTE → LANDING
-  { path: '**', redirectTo: '' }
-
+  { path: '**', redirectTo: '' },
 ];

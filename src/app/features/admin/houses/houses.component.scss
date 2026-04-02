@@ -1,39 +1,250 @@
+// ── Variables ────────────────────────────────────────────────────────────────
+$border:    #e2e8f0;
+$text-main: #0f172a;
+$text-sub:  #64748b;
+$surface:   #f8fafc;
+
+// ── Layout ───────────────────────────────────────────────────────────────────
 .page-container {
-    padding: 24px;
-  }
-  
-  .header-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 24px;
-  }
-  
-  table {
-    width: 100%;
-  }
-  
-  .info-tag {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    background: #f0f2f5;
-    padding: 4px 10px;
-    border-radius: 12px;
-    font-size: 12px;
-    margin-right: 8px;
-    color: #555;
-  
-    mat-icon {
-      font-size: 16px;
-      width: 16px;
-      height: 16px;
+  padding: 32px;
+  background: $surface;
+  min-height: 100vh;
+}
+
+// ── Header ───────────────────────────────────────────────────────────────────
+.main-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+
+  .title-section {
+    h1 {
+      margin: 0;
+      font-size: 26px;
+      font-weight: 800;
+      color: $text-main;
+      letter-spacing: -0.5px;
+    }
+    p {
+      margin: 4px 0 0;
+      color: $text-sub;
+      font-size: 14px;
     }
   }
-  
-  .form-column {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    padding-top: 10px;
+
+  button {
+    border-radius: 10px;
+    font-weight: 600;
   }
+}
+
+// ── Card ──────────────────────────────────────────────────────────────────────
+.content-card {
+  border-radius: 16px !important;
+  border: 1px solid $border !important;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.02), 0 8px 24px rgba(0,0,0,0.04) !important;
+  overflow: hidden;
+  padding: 0 !important;
+}
+
+// ── Toolbar ───────────────────────────────────────────────────────────────────
+.table-tools {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  flex-wrap: wrap;
+  border-bottom: 1px solid $border;
+
+  .houses-search {
+    flex: 2;
+    min-width: 240px;
+  }
+
+  .complex-filter {
+    flex: 1;
+    min-width: 200px;
+  }
+}
+
+// ── Table ─────────────────────────────────────────────────────────────────────
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+}
+
+.modern-table {
+  width: 100%;
+
+  .mat-mdc-header-cell {
+    background: $surface;
+    color: #475569;
+    font-weight: 700;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    padding: 16px 20px !important;
+    border-bottom: 1px solid $border;
+  }
+
+  .mat-mdc-cell {
+    padding: 14px 20px !important;
+    border-bottom: 1px solid #f1f5f9;
+    color: $text-main;
+    font-size: 14px;
+  }
+
+  .table-row {
+    transition: background 0.15s ease;
+    &:hover { background: $surface; }
+    &:last-child td { border-bottom: none; }
+  }
+}
+
+// ── Complex tag ───────────────────────────────────────────────────────────────
+.complex-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  border: 1px solid #bfdbfe;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+// ── Street cell ───────────────────────────────────────────────────────────────
+.street-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  .street-icon {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+      color: #64748b;
+    }
+  }
+}
+
+// ── Number badge ──────────────────────────────────────────────────────────────
+.number-badge {
+  display: inline-block;
+  background: #0f172a;
+  color: #fff;
+  padding: 3px 10px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+// ── Info tags (vehículos / mascotas) ──────────────────────────────────────────
+.info-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.info-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: $surface;
+  border: 1px solid $border;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  color: #334155;
+
+  mat-icon {
+    font-size: 15px;
+    width: 15px;
+    height: 15px;
+    color: $text-sub;
+  }
+
+  &.tag-vehicles {
+    background: #f0f9ff;
+    border-color: #bae6fd;
+    color: #0369a1;
+    mat-icon { color: #0ea5e9; }
+  }
+
+  &.tag-pets {
+    background: #fdf4ff;
+    border-color: #e9d5ff;
+    color: #7e22ce;
+    mat-icon { color: #a855f7; }
+  }
+}
+
+// ── Actions ───────────────────────────────────────────────────────────────────
+.text-right { text-align: right !important; }
+
+.actions-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 4px;
+
+  .icon-edit   { color: #6366f1; }
+  .icon-delete { color: #f43f5e; }
+}
+
+// ── Empty state ───────────────────────────────────────────────────────────────
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 24px;
+  gap: 12px;
+  text-align: center;
+
+  .empty-icon-wrap {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    background: #f1f5f9;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 4px;
+
+    mat-icon {
+      font-size: 36px;
+      width: 36px;
+      height: 36px;
+      color: #94a3b8;
+    }
+  }
+
+  .empty-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 700;
+    color: $text-main;
+  }
+
+  .empty-sub {
+    margin: 0;
+    font-size: 14px;
+    color: $text-sub;
+    max-width: 300px;
+  }
+}

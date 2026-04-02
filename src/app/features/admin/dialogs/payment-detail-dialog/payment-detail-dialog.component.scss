@@ -1,0 +1,247 @@
+// ── Variables ────────────────────────────────────────────────────────────────
+$border:    #e2e8f0;
+$text-main: #0f172a;
+$text-sub:  #64748b;
+$surface:   #f8fafc;
+
+// ── Header ───────────────────────────────────────────────────────────────────
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid $border;
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .header-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #eff6ff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    mat-icon {
+      color: #2563eb;
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  .dialog-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 800;
+    color: $text-main;
+    letter-spacing: -0.3px;
+  }
+
+  .dialog-subtitle {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: $text-sub;
+  }
+
+  .close-btn { color: #94a3b8; &:hover { color: $text-main; } }
+}
+
+// ── Body ─────────────────────────────────────────────────────────────────────
+.dialog-body {
+  padding: 20px 24px !important;
+  max-height: 65vh;
+  overflow-y: auto;
+}
+
+// ── Status banner ─────────────────────────────────────────────────────────────
+.current-status-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 14px;
+  margin-bottom: 20px;
+
+  mat-icon { font-size: 18px; width: 18px; height: 18px; }
+
+  &.banner-approved {
+    background: #f0fdf4; color: #15803d; border: 1px solid #bbf7d0;
+    mat-icon { color: #22c55e; }
+  }
+  &.banner-rejected {
+    background: #fff1f2; color: #be123c; border: 1px solid #fecdd3;
+    mat-icon { color: #f43f5e; }
+  }
+}
+
+// ── Info grid ─────────────────────────────────────────────────────────────────
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 4px;
+}
+
+.info-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: $surface;
+  border: 1px solid $border;
+  border-radius: 10px;
+  padding: 12px 14px;
+}
+
+.info-label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: $text-sub;
+
+  mat-icon { font-size: 14px; width: 14px; height: 14px; }
+}
+
+.info-value {
+  font-size: 14px;
+  font-weight: 600;
+  color: $text-main;
+
+  &.amount {
+    font-size: 18px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+.period-tag {
+  display: inline-block;
+  background: #eff6ff;
+  color: #1d4ed8;
+  padding: 2px 8px;
+  border-radius: 5px;
+  font-size: 13px;
+}
+
+// ── Divider / label ───────────────────────────────────────────────────────────
+.section-divider { margin: 20px 0 16px !important; opacity: 0.6; }
+
+.section-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: $text-sub;
+  margin: 0 0 10px;
+}
+
+// ── Imagen del comprobante ────────────────────────────────────────────────────
+.image-wrapper {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid $border;
+  background: $surface;
+  min-height: 120px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.receipt-img {
+  width: 100%;
+  display: block;
+  border-radius: 11px;
+
+  &.hidden { display: none; }
+}
+
+.img-skeleton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+// ── Sin comprobante / error ───────────────────────────────────────────────────
+.no-receipt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 36px 24px;
+  border-radius: 12px;
+  border: 2px dashed $border;
+  background: $surface;
+  text-align: center;
+
+  mat-icon {
+    font-size: 40px;
+    width: 40px;
+    height: 40px;
+    color: #cbd5e1;
+  }
+
+  p {
+    margin: 0;
+    font-size: 13px;
+    color: $text-sub;
+  }
+}
+
+// ── Actions ───────────────────────────────────────────────────────────────────
+.dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 24px 20px;
+  border-top: 1px solid $border;
+  gap: 12px;
+
+  .btn-cancel { color: $text-sub; font-weight: 600; }
+
+  .action-btns { display: flex; gap: 10px; }
+
+  .btn-reject {
+    border-color: #fecdd3 !important;
+    color: #be123c !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    mat-icon { font-size: 17px; width: 17px; height: 17px; }
+    &:hover { background: #fff1f2 !important; }
+  }
+
+  .btn-approve {
+    background: #16a34a !important;
+    color: white !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.3) !important;
+    min-width: 140px;
+    mat-icon { font-size: 17px; width: 17px; height: 17px; }
+    &:hover   { background: #15803d !important; }
+    &:disabled {
+      background: #d1fae5 !important;
+      box-shadow: none !important;
+      color: #6ee7b7 !important;
+    }
+  }
+
+  .btn-spinner {
+    display: inline-block;
+    margin-right: 4px;
+    --mdc-circular-progress-active-indicator-color: white;
+  }
+}

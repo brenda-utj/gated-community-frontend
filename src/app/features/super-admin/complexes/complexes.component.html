@@ -9,6 +9,20 @@
     </button>
   </div>
 
+  <!-- Buscador -->
+  <div class="search-row">
+    <mat-form-field appearance="outline" class="search-field">
+      <mat-label>Buscar por nombre</mat-label>
+      <input matInput [formControl]="searchControl" placeholder="Ej. Residencial Las Palmas" />
+      <mat-icon matPrefix>search</mat-icon>
+      @if (searchControl.value) {
+        <button matSuffix mat-icon-button (click)="searchControl.setValue('')" matTooltip="Limpiar">
+          <mat-icon>close</mat-icon>
+        </button>
+      }
+    </mat-form-field>
+  </div>
+
   @if (isLoading()) {
     <div class="loading-container">
       <mat-spinner diameter="50"></mat-spinner>
@@ -16,10 +30,10 @@
     </div>
   } @else {
     <div class="complex-grid">
-      @for (item of complexes(); track item._id) {
+      @for (item of displayedComplexes(); track item._id) {
         <mat-card class="complex-card">
           <div class="status-badge" [ngClass]="item.subscription_status">
-            {{ item.subscription_status | uppercase }}
+            {{ statusLabels[item.subscription_status] || item.subscription_status | uppercase }}
           </div>
 
           <mat-card-header>
@@ -27,7 +41,7 @@
             <mat-card-title>{{ item.name }}</mat-card-title>
             <mat-card-subtitle>{{ item.address }}</mat-card-subtitle>
           </mat-card-header>
-          
+
           <mat-card-content>
             <div class="info-row">
               <mat-icon color="accent">supervisor_account</mat-icon>
@@ -43,9 +57,9 @@
                 </span>
               </div>
             </div>
-          
+
             <mat-divider class="card-divider"></mat-divider>
-          
+
             <div class="footer-info">
               <div class="info-row">
                 <mat-icon>event</mat-icon>
@@ -53,8 +67,18 @@
               </div>
             </div>
           </mat-card-content>
-  
+
           <mat-card-actions align="end">
+            <div class="toggle-container" style="margin-right: auto; margin-left: 8px;">
+              <mat-slide-toggle
+                [checked]="item.subscription_status === 'active'"
+                (change)="toggleStatus(item)"
+                color="primary"
+                matTooltip="Activar/Desactivar">
+                <small style="color: #666;">{{ item.subscription_status === 'active' ? 'Activo' : 'Inactivo' }}</small>
+              </mat-slide-toggle>
+            </div>
+
             <button mat-icon-button color="primary" matTooltip="Editar" (click)="openEditDialog(item)">
               <mat-icon>edit</mat-icon>
             </button>
@@ -66,9 +90,19 @@
       } @empty {
         <div class="empty-state">
           <mat-icon>location_off</mat-icon>
-          <p>No hay fraccionamientos registrados aún.</p>
+          <p>No se encontraron fraccionamientos.</p>
         </div>
       }
     </div>
+
+    <!-- Botón "Mostrar más" -->
+    @if (hasMore()) {
+      <div class="load-more-row">
+        <button mat-stroked-button color="primary" (click)="loadMore()">
+          <mat-icon>expand_more</mat-icon>
+          MOSTRAR MÁS
+        </button>
+      </div>
+    }
   }
 </div>

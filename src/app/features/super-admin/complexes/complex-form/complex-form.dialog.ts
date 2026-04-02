@@ -48,7 +48,10 @@ export class ComplexFormDialog implements OnInit {
       // CORRECCIÓN: Usamos 'name' que es como viene del API
       this.complexForm.patchValue({
         complex_name: this.data.name, 
-        address: this.data.address
+        address: this.data.address,
+        admin_first_name:this.data.admin_user?.first_name || '',
+        admin_last_name: this.data.admin_user?.last_name || '',
+        admin_email: this.data.admin_user?.email || '',
       });
   
       // En edición, removemos validadores de los campos de admin para que no bloqueen el form

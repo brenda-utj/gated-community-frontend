@@ -7,14 +7,17 @@ export const roleGuard: CanActivateFn = (route, state) => {
   const router = inject(Router);
   
   const user = authService.currentUser();
-  // Obtenemos los roles permitidos definidos en la data de la ruta
   const allowedRoles = route.data['roles'] as Array<string>;
 
-  if (user && allowedRoles.includes(user.role)) {
-    return true;
+  if (!user) {
+    return router.createUrlTree(['/login']);
   }
 
-  // Si no tiene permiso, lo mandamos al dashboard principal o una página 403
-  router.navigate(['/dashboard']);
-  return false;
+  const hasRole = allowedRoles.some(
+    role => role.toLowerCase() === user.role?.toLowerCase()
+  );
+
+  if (hasRole) return true;
+
+  return router.createUrlTree(['/dashboard']);
 };

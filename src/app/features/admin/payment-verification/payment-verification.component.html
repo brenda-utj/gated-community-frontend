@@ -1,52 +1,166 @@
 <div class="page-container">
-    <header class="admin-header">
+
+  <!-- HEADER -->
+  <header class="admin-header">
+    <div class="header-text">
       <h1>Verificación de Pagos</h1>
       <p>Revisa y aprueba los comprobantes de mantenimiento de los residentes</p>
-    </header>
-  
-    <mat-card class="table-card">
-      <table mat-table [dataSource]="payments()">
-        
-        <ng-container matColumnDef="resident">
-          <th mat-header-cell *matHeaderCellDef> Residente </th>
-          <td mat-cell *matCellDef="let p"> {{ p.resident_id?.first_name }} {{ p.resident_id?.last_name }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="house">
-          <th mat-header-cell *matHeaderCellDef> Casa </th>
-          <td mat-cell *matCellDef="let p"> {{ p.house_id?.address }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="month">
-          <th mat-header-cell *matHeaderCellDef> Mes </th>
-          <td mat-cell *matCellDef="let p"> <b>{{ p.month_covered }}</b> </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="amount">
-          <th mat-header-cell *matHeaderCellDef> Monto </th>
-          <td mat-cell *matCellDef="let p"> {{ p.amount | currency }} </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef> Estatus </th>
-          <td mat-cell *matCellDef="let p">
-            <span class="status-badge" [ngClass]="p.status">
-              {{ p.status | uppercase }}
-            </span>
-          </td>
-        </ng-container>
-  
-        <ng-container matColumnDef="actions">
-          <th mat-header-cell *matHeaderCellDef> Acciones </th>
-          <td mat-cell *matCellDef="let p">
-            <button mat-flat-button color="primary" (click)="viewDetail(p)">
-              REVISAR
-            </button>
-          </td>
-        </ng-container>
-  
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
-    </mat-card>
+    </div>
+  </header>
+
+  <!-- SUMMARY CHIPS -->
+  <div class="summary-strip">
+    <div class="summary-chip total">
+      <mat-icon>receipt_long</mat-icon>
+      <div class="chip-data">
+        <span class="chip-value">{{ counts().total }}</span>
+        <span class="chip-label">Total</span>
+      </div>
+    </div>
+    <div class="summary-chip pending">
+      <mat-icon>schedule</mat-icon>
+      <div class="chip-data">
+        <span class="chip-value">{{ counts().pending }}</span>
+        <span class="chip-label">Pendientes</span>
+      </div>
+    </div>
+    <div class="summary-chip approved">
+      <mat-icon>check_circle</mat-icon>
+      <div class="chip-data">
+        <span class="chip-value">{{ counts().approved }}</span>
+        <span class="chip-label">Aprobados</span>
+      </div>
+    </div>
+    <div class="summary-chip rejected">
+      <mat-icon>cancel</mat-icon>
+      <div class="chip-data">
+        <span class="chip-value">{{ counts().rejected }}</span>
+        <span class="chip-label">Rechazados</span>
+      </div>
+    </div>
   </div>
+
+  <!-- MAIN CARD -->
+  <mat-card class="table-card">
+
+    <!-- TOOLBAR -->
+    <div class="table-tools">
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="search-field">
+        <mat-icon matPrefix>search</mat-icon>
+        <mat-label>Buscar residente...</mat-label>
+        <input matInput [formControl]="searchControl" placeholder="Nombre o apellido" />
+        @if (searchControl.value) {
+          <button matSuffix mat-icon-button (click)="clearSearch()" matTooltip="Limpiar">
+            <mat-icon>close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" subscriptSizing="dynamic" class="status-filter">
+        <mat-icon matPrefix>filter_list</mat-icon>
+        <mat-label>Estatus</mat-label>
+        <mat-select [formControl]="statusFilterControl">
+          @for (opt of statusOptions; track opt.value) {
+            <mat-option [value]="opt.value">{{ opt.label }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <!-- LOADING -->
+    @if (isLoading()) {
+      <div class="loading-state">
+        <mat-spinner diameter="44"></mat-spinner>
+        <p>Cargando pagos...</p>
+      </div>
+    } @else {
+
+      <!-- TABLE -->
+      <div class="table-responsive">
+        <table mat-table [dataSource]="filteredPayments()" class="modern-table">
+
+          <!-- Residente -->
+          <ng-container matColumnDef="resident">
+            <th mat-header-cell *matHeaderCellDef>Residente</th>
+            <td mat-cell *matCellDef="let p">
+              <div class="resident-cell">
+                <div class="avatar" [attr.data-status]="p.status">
+                  {{ p.resident_id?.first_name?.[0] }}{{ p.resident_id?.last_name?.[0] }}
+                </div>
+                <div class="resident-info">
+                  <span class="resident-name">{{ p.resident_id?.first_name }} {{ p.resident_id?.last_name }}</span>
+                </div>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Casa -->
+          <ng-container matColumnDef="house">
+            <th mat-header-cell *matHeaderCellDef>Ubicación</th>
+            <td mat-cell *matCellDef="let p">
+              <div class="house-tag">
+                <mat-icon>home</mat-icon>
+                <span>{{ p.house_id?.house_number || 'Sin asignar' }}</span>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Mes -->
+          <ng-container matColumnDef="month">
+            <th mat-header-cell *matHeaderCellDef>Período</th>
+            <td mat-cell *matCellDef="let p">
+              <span class="month-tag">{{ p.month_covered }}</span>
+            </td>
+          </ng-container>
+
+          <!-- Monto -->
+          <ng-container matColumnDef="amount">
+            <th mat-header-cell *matHeaderCellDef>Monto</th>
+            <td mat-cell *matCellDef="let p">
+              <span class="amount-text">{{ p.amount | currency }}</span>
+            </td>
+          </ng-container>
+
+          <!-- Estatus -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef>Estatus</th>
+            <td mat-cell *matCellDef="let p">
+              <span class="status-badge" [ngClass]="'status-' + p.status">
+                <span class="status-dot"></span>
+                {{ statusLabels[p.status] || p.status }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Acciones -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef class="col-actions">Acción</th>
+            <td mat-cell *matCellDef="let p" class="col-actions">
+              <button mat-stroked-button class="review-btn" (click)="viewDetail(p)" matTooltip="Ver comprobante">
+                <mat-icon>visibility</mat-icon>
+                Revisar
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="data-row"></tr>
+        </table>
+      </div>
+
+      <!-- EMPTY STATE -->
+      @if (filteredPayments().length === 0) {
+        <div class="empty-state">
+          <div class="empty-icon-wrap">
+            <mat-icon>find_in_page</mat-icon>
+          </div>
+          <p class="empty-title">Sin resultados</p>
+          <p class="empty-sub">No hay pagos que coincidan con tu búsqueda o filtro actual.</p>
+          <button mat-stroked-button (click)="clearSearch(); statusFilterControl.setValue('all')">
+            <mat-icon>refresh</mat-icon> Limpiar filtros
+          </button>
+        </div>
+      }
+    }
+  </mat-card>
+</div>

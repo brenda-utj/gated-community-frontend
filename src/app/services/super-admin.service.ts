@@ -1,6 +1,6 @@
 import { Injectable, inject, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 import { environment } from '../../environments/environment'; // Importa el environment
 import { Complex } from '../models/complex.model';
 
@@ -26,6 +26,12 @@ export class SuperAdminService {
 
   updateComplex(id: string, data: any) {
     return this.http.patch(`${this.baseUrl}/super/complexes/${id}`, data);
+  }
+
+  changeStatus(id: string, newStatus: 'active' | 'inactive'): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/super/complexes/${id}/status`, { 
+      subscription_status: newStatus 
+    });
   }
 
   /**

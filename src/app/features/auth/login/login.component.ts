@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../../core/services/auth.service';
@@ -10,6 +10,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatInputModule, 
     MatButtonModule,
     MatSnackBarModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
@@ -32,22 +34,26 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private snackBar = inject(MatSnackBar);
 
+  
+  loading = signal(false);
+
   loginForm = this.fb.nonNullable.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]]
   });
 
   onSubmit(): void {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
+    if (this.loginForm.invalid || this.loading()) return;
+
+    this.loading.set(true);
 
     this.authService.login(this.loginForm.getRawValue()).subscribe({
       next: () => {
+        this.loading.set(false);
         this.snackBar.open('Bienvenido al sistema', 'Cerrar', { duration: 3000 });
       },
       error: () => {
+        this.loading.set(false);
         this.snackBar.open('Error: Credenciales inválidas', 'Cerrar', { duration: 3000 });
       }
     });

@@ -1,34 +1,72 @@
 <div class="login-container">
   <mat-card class="login-card">
+    
     <mat-card-header>
       <mat-card-title>Gated Community</mat-card-title>
-      <mat-card-subtitle>Ingresa tus credenciales para continuar</mat-card-subtitle>
+      <mat-card-subtitle>
+        Ingresa tus credenciales para continuar
+      </mat-card-subtitle>
     </mat-card-header>
     
     <mat-card-content>
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+        <!-- EMAIL -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Email</mat-label>
-          <input matInput formControlName="email" type="email" placeholder="ejemplo@correo.com">
+          <input 
+            matInput 
+            formControlName="email" 
+            type="email" 
+            placeholder="ejemplo@correo.com">
+
           <mat-icon matSuffix>email</mat-icon>
+
           @if (loginForm.get('email')?.invalid && loginForm.get('email')?.touched) {
             <mat-error>Ingresa un correo válido</mat-error>
           }
         </mat-form-field>
 
+        <!-- PASSWORD -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Contraseña</mat-label>
-          <input matInput formControlName="password" type="password" placeholder="Tu contraseña">
+          <input 
+            matInput 
+            formControlName="password" 
+            type="password" 
+            placeholder="Tu contraseña">
+
           <mat-icon matSuffix>lock</mat-icon>
+
           @if (loginForm.get('password')?.invalid && loginForm.get('password')?.touched) {
             <mat-error>La contraseña debe tener al menos 6 caracteres</mat-error>
           }
         </mat-form-field>
 
-        <button mat-flat-button color="primary" class="full-width" [disabled]="loginForm.invalid">
-          Iniciar Sesión
+        <!-- BUTTON -->
+        <button 
+          mat-flat-button 
+          color="primary" 
+          class="full-width"
+          type="submit"
+          [disabled]="loading() || loginForm.invalid">
+
+          <!-- Texto -->
+          <span [style.opacity]="loading() ? 0 : 1">
+            Iniciar Sesión
+          </span>
+
+          <!-- Spinner -->
+          <mat-progress-spinner 
+            *ngIf="loading()"
+            diameter="20"
+            mode="indeterminate">
+          </mat-progress-spinner>
+
         </button>
+
       </form>
     </mat-card-content>
+
   </mat-card>
 </div>

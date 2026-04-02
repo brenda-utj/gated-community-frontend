@@ -1,0 +1,116 @@
+// ── Variables ────────────────────────────────────────────────────────────────
+$border:    #e2e8f0;
+$text-main: #0f172a;
+$text-sub:  #64748b;
+$surface:   #f8fafc;
+$green:     #16a34a;
+
+// ── Header ───────────────────────────────────────────────────────────────────
+.dialog-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 16px;
+  border-bottom: 1px solid $border;
+
+  .header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .header-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    background: #f0fdf4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+
+    mat-icon {
+      color: $green;
+      font-size: 22px;
+      width: 22px;
+      height: 22px;
+    }
+  }
+
+  .dialog-title {
+    margin: 0;
+    font-size: 17px;
+    font-weight: 800;
+    color: $text-main;
+    letter-spacing: -0.3px;
+  }
+
+  .dialog-subtitle {
+    margin: 2px 0 0;
+    font-size: 13px;
+    color: $text-sub;
+  }
+
+  .close-btn {
+    color: #94a3b8;
+    &:hover { color: $text-main; }
+  }
+}
+
+// ── Body ─────────────────────────────────────────────────────────────────────
+.dialog-body {
+  padding: 24px !important;
+}
+
+.form-column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  mat-form-field {
+    width: 100%;
+  }
+}
+
+// ── Actions ───────────────────────────────────────────────────────────────────
+.dialog-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px 20px;
+  border-top: 1px solid $border;
+
+  .btn-cancel {
+    color: $text-sub;
+    font-weight: 600;
+  }
+
+  .btn-save {
+    background: $green !important;
+    color: white !important;
+    border-radius: 10px !important;
+    font-weight: 700 !important;
+    min-width: 130px;
+    box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25) !important;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+
+    &:hover    { background: #15803d !important; }
+    &:disabled {
+      background: #d1fae5 !important;
+      color: #6ee7b7 !important;
+      box-shadow: none !important;
+    }
+  }
+
+  .btn-spinner {
+    display: inline-block;
+    margin-right: 6px;
+    --mdc-circular-progress-active-indicator-color: white;
+  }
+}

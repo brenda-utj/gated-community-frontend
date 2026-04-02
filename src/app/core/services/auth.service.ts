@@ -41,8 +41,9 @@ export class AuthService {
   }
 
   logout() {
+    console.trace('🚨 LOGOUT TRIGGERED');
     localStorage.removeItem('token');
-    localStorage.removeItem('user'); // Limpiamos todo
+    localStorage.removeItem('user');
     this.currentUser.set(null);
     this.router.navigate(['/login']);
   }
