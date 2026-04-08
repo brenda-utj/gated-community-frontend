@@ -1,26 +1,43 @@
-<h2 mat-dialog-title style="text-align:center;">Detalles del comprobante</h2>
+<div class="dialog-wrapper">
 
-<mat-dialog-content>
+  <!-- Header -->
+  <div class="dialog-header">
+    <p class="dialog-eyebrow">Comprobante de pago</p>
+    <h2 class="dialog-month">{{ data.month }}</h2>
+  </div>
 
-  <p style="text-align:center; margin: 0 0 12px; font-weight:600;">
-    Mes que cubre: {{ data.month }}
-  </p>
+  <mat-dialog-content class="dialog-body">
 
-  <div class="status-row">
-  <span class="status-badge" [attr.data-status]="data.status">
-    <span class="status-dot"></span>
-    Estado del pago: {{ getStatusLabel(data.status) }}
-  </span>
+    <!-- Status -->
+    <div class="detail-row">
+      <span class="detail-label">Estado</span>
+      <span class="status-badge" [attr.data-status]="data.status">
+        <span class="status-dot"></span>
+        {{ getStatusLabel(data.status) }}
+      </span>
+    </div>
+
+    <!-- Imagen (opcional) -->
+    @if (imageSrc) {
+      <div class="image-section">
+        <p class="section-label">Imagen adjunta</p>
+        <div class="image-wrap">
+          <img [src]="imageSrc" alt="Comprobante" class="receipt-img" />
+        </div>
+      </div>
+    }
+
+    <!-- Fecha -->
+    <div class="date-row">
+      <mat-icon class="date-icon">calendar_today</mat-icon>
+      <span class="detail-label">Fecha de envío</span>
+      <span class="date-value">{{ data.createdAt | date:'dd/MM/yyyy' }}</span>
+    </div>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end" class="dialog-actions">
+    <button mat-button (click)="dialogRef.close()">Cerrar</button>
+  </mat-dialog-actions>
+
 </div>
-
-  <img [src]="imageSrc" alt="Comprobante" class="receipt-img">
-
-  <p style="text-align:center; margin: 12px 0 0; font-weight:600;">
-    Fecha de envío: {{ data.createdAt | date:'dd/MM/yyyy' }}
-  </p>
-
-</mat-dialog-content>
-
-<mat-dialog-actions align="end">
-  <button mat-button (click)="dialogRef.close()">Cerrar</button>
-</mat-dialog-actions>

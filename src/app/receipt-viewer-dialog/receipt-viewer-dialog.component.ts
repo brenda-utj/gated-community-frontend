@@ -2,13 +2,15 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
+import { MatIcon } from "@angular/material/icon";
 
 
 @Component({
   selector: 'app-receipt-viewer-dialog',
   standalone: true,
-  imports: [CommonModule, MatDialogModule, MatButtonModule],
+  imports: [CommonModule, MatDialogModule, MatButtonModule, MatIcon],
   templateUrl: './receipt-viewer-dialog.component.html',
+  styleUrl: './receipt-viewer-dialog.component.scss'
 })
 export class ReceiptViewerDialogComponent {
   imageSrc: string;

@@ -63,7 +63,7 @@ export const routes: Routes = [
       {
         path: 'resident',
         canActivate: [roleGuard],
-        data: { roles: ['resident'] },
+        data: { roles: ['resident', 'admin', 'security'] },
         loadChildren: () =>
           import('./features/resident/resident.routes').then(
             (m) => m.RESIDENT_ROUTES,

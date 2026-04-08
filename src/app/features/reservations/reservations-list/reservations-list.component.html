@@ -1,0 +1,118 @@
+<div class="reservations-container">
+
+  <div class="header">
+    <h1>Mis Reservas</h1>
+
+    <button 
+      *ngIf="(reservations || []).length > 0"
+      mat-raised-button 
+      color="primary"
+      (click)="openCreateDialog()">
+      Nueva reserva
+    </button>
+  </div>
+
+  <!-- 🔍 SI HAY RESERVAS -->
+  <ng-container *ngIf="(reservations || []).length > 0; else emptyState">
+
+    <div class="reservations-grid">
+
+      <mat-card class="reservation-card" *ngFor="let reservation of reservations">
+
+        <!-- HEADER -->
+        <div class="card-header">
+          <h3>{{ reservation.area || reservation.area_name }}</h3>
+
+          <span class="status" [ngClass]="reservation.status">
+            {{
+                reservation.status === 'pending' ? 'Pendiente' :
+                reservation.status === 'approved' ? 'Aprobada' :
+                reservation.status === 'rejected' ? 'Rechazada' :
+                reservation.status === 'cancelled' ? 'Cancelada' :
+                reservation.status
+            }}
+          </span>
+        </div>
+
+        <!-- CONTENIDO -->
+        <div class="card-content">
+
+          <p>
+            <mat-icon>event</mat-icon>
+            {{ reservation.date | date:'dd/MM/yyyy' }}
+          </p>
+
+          <p>
+            <mat-icon>schedule</mat-icon>
+            {{ reservation.start_time }} - {{ reservation.end_time }}
+          </p>
+
+          <p *ngIf="reservation.requirements">
+            <mat-icon>notes</mat-icon>
+            {{ reservation.requirements }}
+          </p>
+
+        </div>
+
+        <div class="card-actions">
+
+            <!-- EDITAR -->
+            <button 
+                mat-icon-button 
+                color="primary"
+                matTooltip="Editar"
+                *ngIf="reservation.status === 'pending'"
+                (click)="editReservation(reservation)">
+                <mat-icon>edit</mat-icon>
+            </button>
+
+            <!-- CANCELAR -->
+            <button 
+                mat-icon-button 
+                color="warn"
+                matTooltip="Cancelar"
+                *ngIf="reservation.status === 'pending'"
+                (click)="cancelReservation(reservation._id)">
+                <mat-icon>cancel</mat-icon>
+            </button>
+
+            <!-- ELIMINAR -->
+            <button 
+                mat-icon-button 
+                color="warn"
+                matTooltip="Eliminar"
+                (click)="deleteReservation(reservation)">
+                <mat-icon>delete</mat-icon>
+            </button>
+
+         </div>
+
+      </mat-card>
+
+    </div>
+
+  </ng-container>
+
+  <!-- EMPTY -->
+  <ng-template #emptyState>
+
+    <div class="empty-state">
+
+      <mat-icon class="empty-icon">event_busy</mat-icon>
+
+      <h2>No tienes reservas aún</h2>
+
+      <p>
+        Aquí podrás ver y gestionar tus reservas de áreas comunes como alberca,
+        salón de eventos o gimnasio.
+      </p>
+
+      <button mat-flat-button color="primary" (click)="openCreateDialog()">
+        Crear primera reserva
+      </button>
+
+    </div>
+
+  </ng-template>
+
+</div>

@@ -1,0 +1,87 @@
+<h2 mat-dialog-title>
+  {{ data?.isEdit ? 'Editar reserva' : 'Nueva reserva' }}
+</h2>
+
+<form [formGroup]="form" (ngSubmit)="submit()" class="form">
+
+  <mat-dialog-content>
+
+    <!-- AREA -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Área</mat-label>
+      <mat-select formControlName="area">
+        <mat-option *ngFor="let area of areas" [value]="area">
+          {{ area }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <!-- FECHA -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Fecha</mat-label>
+      <input matInput [matDatepicker]="picker" formControlName="date">
+      <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+
+    <div class="row">
+
+    <!-- HORA INICIO -->
+    <mat-form-field appearance="outline">
+        <mat-label>Hora inicio</mat-label>
+        <mat-select formControlName="start_time">
+        <mat-option *ngFor="let hour of hours" [value]="hour">
+            {{ hour }}
+        </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- HORA FIN -->
+    <mat-form-field appearance="outline">
+        <mat-label>Hora fin</mat-label>
+        <mat-select formControlName="end_time">
+        <mat-option *ngFor="let hour of hours" [value]="hour">
+            {{ hour }}
+        </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    </div>
+
+    <!-- INVITADOS -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Invitados</mat-label>
+      <input matInput type="number" formControlName="guests">
+    </mat-form-field>
+
+    <!-- REQUERIMIENTOS -->
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Requerimientos</mat-label>
+      <textarea matInput rows="3" formControlName="requirements"></textarea>
+    </mat-form-field>
+
+  </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+
+    <button mat-button type="button" (click)="close()">
+      Cancelar
+    </button>
+
+    <button 
+        mat-raised-button 
+        color="primary" 
+        type="submit" 
+        [disabled]="loading">
+
+        {{
+            loading
+            ? (data?.isEdit ? 'Guardando...' : 'Reservando...')
+            : (data?.isEdit ? 'Guardar cambios' : 'Reservar')
+        }}
+
+    </button>
+
+  </mat-dialog-actions>
+
+</form>

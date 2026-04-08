@@ -2,74 +2,164 @@
   <mat-sidenav #drawer [opened]="isOpened()" mode="side" class="sidenav">
     <mat-toolbar color="primary">Menú</mat-toolbar>
     <mat-nav-list>
-      
-      <a mat-list-item routerLink="/dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact: true}">
+      <a
+        mat-list-item
+        routerLink="/dashboard"
+        routerLinkActive="active-link"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
         <mat-icon matListItemIcon>dashboard</mat-icon>
         <span matListItemTitle>Inicio</span>
       </a>
-    
+
       <ng-container *hasRole="['super_admin']">
         <div mat-subheader>Administración Global</div>
-        <a mat-list-item routerLink="/dashboard/super/complexes" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/dashboard/super/complexes"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>location_city</mat-icon>
           <span matListItemTitle>Fraccionamientos</span>
         </a>
-        <a mat-list-item routerLink="/dashboard/super/global-reports" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/dashboard/super/global-reports"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>analytics</mat-icon>
           <span matListItemTitle>Métricas Globales</span>
         </a>
       </ng-container>
-    
+
       <ng-container *hasRole="['admin', 'super_admin']">
         <div mat-subheader>Gestión Local</div>
-        <a mat-list-item routerLink="/dashboard/admin/houses" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/dashboard/admin/houses"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>meeting_room</mat-icon>
           <span matListItemTitle>Casas / Unidades</span>
         </a>
-        <a mat-list-item routerLink="/dashboard/admin/members" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/dashboard/admin/members"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>people</mat-icon>
           <span matListItemTitle>Residentes y Staff</span>
         </a>
-        <a mat-list-item routerLink="/dashboard/admin/payments" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/dashboard/admin/payments"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>receipt_long</mat-icon>
           <span matListItemTitle>Pagos y Cobranza</span>
         </a>
+
+        <a
+          mat-list-item
+          routerLink="/dashboard/resident/reports"
+          routerLinkActive="active-link"
+        >
+          <mat-icon matListItemIcon>assignment_add</mat-icon>
+          <span matListItemTitle>Reportes</span>
+        </a>
+        <a
+          mat-list-item
+          routerLink="/dashboard/resident/reservations"
+          routerLinkActive="active-link"
+          *hasRole="['admin']"
+        >
+          <mat-icon matListItemIcon>event_available</mat-icon>
+          <span matListItemTitle>Mis Reservas</span>
+        </a>
       </ng-container>
-    
+
       <ng-container *hasRole="['resident']">
         <div mat-subheader>Mi Hogar</div>
-        <a mat-list-item routerLink="/dashboard/resident/visits" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/dashboard/resident/visits"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>qr_code_2</mat-icon>
           <span matListItemTitle>Mis Visitas</span>
         </a>
-        <a mat-list-item routerLink="/dashboard/resident/house" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/dashboard/resident/house"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>home</mat-icon>
           <span matListItemTitle>Mi Vivienda</span>
         </a>
-        <a mat-list-item routerLink="/dashboard/resident/payments" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/dashboard/resident/payments"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>payments</mat-icon>
           <span matListItemTitle>Mis Pagos</span>
         </a>
-        <a mat-list-item routerLink="/dashboard/resident/reports" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/dashboard/resident/reports"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>assignment_add</mat-icon>
           <span matListItemTitle>Mis Reportes</span>
         </a>
+        <a
+          mat-list-item
+          routerLink="/dashboard/resident/reservations"
+          routerLinkActive="active-link"
+        >
+          <mat-icon matListItemIcon>event_available</mat-icon>
+          <span matListItemTitle>Mis Reservas</span>
+        </a>
       </ng-container>
-    
+
       <ng-container *hasRole="['security']">
         <div mat-subheader>Operaciones</div>
-        <a mat-list-item routerLink="/dashboard/security/scanner" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/dashboard/security/scanner"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>qr_code_scanner</mat-icon>
           <span matListItemTitle>Monitor de accesos</span>
         </a>
-        <a mat-list-item routerLink="/dashboard/security/directory" routerLinkActive="active-link">
+        <a
+          mat-list-item
+          routerLink="/dashboard/security/directory"
+          routerLinkActive="active-link"
+        >
           <mat-icon matListItemIcon>contact_phone</mat-icon>
           <span matListItemTitle>Directorio</span>
         </a>
+        <a
+          mat-list-item
+          routerLink="/dashboard/resident/reports"
+          routerLinkActive="active-link"
+        >
+          <mat-icon matListItemIcon>assignment_add</mat-icon>
+          <span matListItemTitle>Reportes</span>
+        </a>
+        <a
+          mat-list-item
+          routerLink="/dashboard/resident/reservations"
+          routerLinkActive="active-link"
+        >
+          <mat-icon matListItemIcon>event_available</mat-icon>
+          <span matListItemTitle>Mis Reservas</span>
+        </a>
       </ng-container>
-    
+
       <mat-divider></mat-divider>
-    
+
       <a mat-list-item (click)="logout()" class="logout-item">
         <mat-icon matListItemIcon color="warn">logout</mat-icon>
         <span matListItemTitle>Cerrar Sesión</span>
@@ -84,22 +174,23 @@
     </button>
     
     <div class="brand-section">
-      <span>PRIVIUM</span>
+      <span class="brand-logo">PRIVIUM</span>
       
       @if (hasLocationInfo()) {
-        <div class="location-chips">
+        <div class="vertical-divider"></div>
+        <div class="location-container">
           @if (currentUser()?.complex) {
-            <span class="location-badge complex">
+            <div class="info-item">
               <mat-icon>business</mat-icon>
-              {{ currentUser()?.complex.name }}
-            </span>
+              <span class="label">{{ currentUser()?.complex.name }}</span>
+            </div>
           }
           
           @if (currentUser()?.house) {
-            <span class="location-badge house">
+            <div class="info-item">
               <mat-icon>home</mat-icon>
-              {{ currentUser()?.house.address }}
-            </span>
+              <span class="label">{{ currentUser()?.house.address }}</span>
+            </div>
           }
         </div>
       }
@@ -107,10 +198,16 @@
 
     <span class="spacer"></span>
 
-    <div class="user-profile">
-      <span class="user-name">
-        {{ currentUser()?.first_name }} {{ currentUser()?.last_name }}
-      </span>
+    <div class="user-profile-container">
+      <div class="user-info-text">
+        <span class="user-name">
+          {{ currentUser()?.first_name }} {{ currentUser()?.last_name }}
+        </span>
+        <span class="user-email">
+          {{ currentUser()?.email }}
+        </span>
+      </div>
+      
       <div class="user-avatar">
         {{ currentUser()?.first_name[0] }}{{ currentUser()?.last_name[0] }}
       </div>

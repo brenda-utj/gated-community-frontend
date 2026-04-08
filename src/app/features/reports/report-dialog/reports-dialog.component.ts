@@ -1,19 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Inject,
+  OnInit,
+  signal
+} from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatCardModule } from '@angular/material/card';
-import { MatDialogModule, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { MatTableModule } from '@angular/material/table';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 import { ReportService } from '../../../services/report.service';
 import { ReactiveFormsModule, FormBuilder, Validators } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
-  selector: 'app-reports-list',
+  selector: 'app-reports-dialog',
   standalone: true,
   imports: [
     CommonModule,
@@ -23,49 +29,75 @@ import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule
+    MatIconModule,
+    MatProgressSpinnerModule
   ],
   templateUrl: './reports-dialog.component.html',
   styleUrls: ['./reports-dialog.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ReportsDialogComponent {
-   private fb = inject(FormBuilder);
+export class ReportsDialogComponent implements OnInit {
+  private fb = inject(FormBuilder);
   private dialogRef = inject(MatDialogRef<ReportsDialogComponent>);
   private reportService = inject(ReportService);
   private snackBar = inject(MatSnackBar);
+  private cdr = inject(ChangeDetectorRef);
+
+  // Inyectamos los datos del reporte (null = crear, objeto = editar)
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any | null) {}
+
+  get isEditing(): boolean {
+    return !!this.data?._id;
+  }
 
   selectedFile!: File;
   previewUrl: string | null = null;
   loading = false;
+  // Si ya tiene imagen al abrir en modo edición, la mostramos
+  existingImageUrl: string | null = null;
+  removeExistingImage = false;
 
   form = this.fb.group({
     subject: ['', Validators.required],
     description: ['', Validators.required]
   });
 
-  // 📸 Capturar archivo
+  ngOnInit() {
+    if (this.isEditing) {
+      this.form.patchValue({
+        subject: this.data.subject,
+        description: this.data.description
+      });
+
+      if (this.data.image_url) {
+        this.existingImageUrl = this.data.image_url;
+        this.previewUrl = this.data.image_url;
+      }
+    }
+  }
+
   onFileSelected(event: any) {
-    const file = event.target.files[0];
+    const file: File = event.target.files[0];
     if (!file) return;
 
     this.selectedFile = file;
+    this.removeExistingImage = true;
 
-    // Preview
     const reader = new FileReader();
     reader.onload = () => {
       this.previewUrl = reader.result as string;
+      this.cdr.markForCheck();
     };
     reader.readAsDataURL(file);
   }
 
-  // 🗑️ Eliminar imagen
   removeImage() {
     this.selectedFile = null as any;
     this.previewUrl = null;
+    this.removeExistingImage = true;
+    this.existingImageUrl = null;
   }
 
-  // 🚀 Enviar
   send() {
     if (this.form.invalid) return;
 
@@ -79,20 +111,28 @@ export class ReportsDialogComponent {
       formData.append('image', this.selectedFile);
     }
 
-    this.reportService.create(formData).subscribe({
-      next: () => {
-        this.snackBar.open('Reporte enviado con éxito ✅', 'Cerrar', {
-          duration: 3000
-        });
+    // En edición: indicar al backend si se quitó la imagen
+    if (this.isEditing && this.removeExistingImage && !this.selectedFile) {
+      formData.append('remove_image', 'true');
+    }
 
+    const request$ = this.isEditing
+      ? this.reportService.update(this.data._id, formData as any)
+      : this.reportService.create(formData);
+
+    request$.subscribe({
+      next: () => {
+        this.snackBar.open(
+          this.isEditing ? 'Reporte actualizado ✅' : 'Reporte enviado ✅',
+          'Cerrar',
+          { duration: 3000 }
+        );
         this.dialogRef.close(true);
       },
       error: () => {
-        this.snackBar.open('Error al enviar reporte ❌', 'Cerrar', {
-          duration: 3000
-        });
-
+        this.snackBar.open('Ocurrió un error ❌', 'Cerrar', { duration: 3000 });
         this.loading = false;
+        this.cdr.markForCheck();
       }
     });
   }

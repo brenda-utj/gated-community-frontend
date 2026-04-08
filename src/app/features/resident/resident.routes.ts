@@ -20,6 +20,10 @@ export const RESIDENT_ROUTES: Routes = [
         path: 'reports',
         loadComponent: () => import('../reports/reports-list/reports-list.component').then(m => m.ReportsListComponent)
       },
+       {
+        path: 'reservations',
+        loadComponent: () => import('../reservations/reservations-list/reservations-list.component').then(m => m.ReservationsListComponent)
+      },
       {
         path: '',
         redirectTo: 'house',

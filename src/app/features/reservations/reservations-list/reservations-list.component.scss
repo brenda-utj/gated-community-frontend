@@ -1,0 +1,179 @@
+.reservations-container{
+  padding:30px;
+}
+
+h1{
+  color:#004D79;
+  margin-bottom:25px;
+}
+
+/* GRID */
+.reservations-grid{
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap:20px;
+}
+
+/* CARD */
+.reservation-card{
+  border-radius:16px;
+  padding:10px;
+  transition:.3s;
+}
+
+.reservation-card:hover{
+  transform: translateY(-5px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.1);
+}
+
+/* HEADER */
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+}
+
+/* STATUS */
+.status{
+  padding:4px 10px;
+  border-radius:10px;
+  font-size:12px;
+  text-transform:capitalize;
+}
+
+.status.active{
+  background:#d1fae5;
+  color:#065f46;
+}
+
+.status.cancelled{
+  background:#fee2e2;
+  color:#991b1b;
+}
+
+/* CONTENT */
+.card-content p{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:8px 0;
+  color:#555;
+}
+
+/* EMPTY STATE */
+.empty-state{
+  text-align:center;
+  margin-top:80px;
+  max-width:400px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+.empty-icon{
+  font-size:60px;
+  color:#004D79;
+}
+
+.empty-state h2{
+  margin:15px 0;
+}
+
+.empty-state p{
+  color:#666;
+  margin-bottom:20px;
+}
+
+.header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+/* GRID DE RESERVAS */
+.reservations-grid{
+  display:grid;
+  grid-template-columns: repeat(4, 1fr); // 🔥 4 columnas
+  gap:20px;
+}
+
+/* CARD */
+.reservation-card{
+  padding:10px;
+  border-radius:16px;
+  transition: all .3s ease;
+}
+
+.reservation-card:hover{
+  transform: translateY(-5px);
+  box-shadow:0 10px 25px rgba(0,0,0,0.15);
+}
+
+/* HEADER */
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:10px;
+}
+
+.card-header h3{
+  font-size:16px;
+  font-weight:600;
+  color:#004D79;
+}
+
+/* STATUS */
+.status{
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:12px;
+  font-weight:600;
+  text-transform:capitalize;
+}
+
+/* COLORES POR ESTADO */
+.status.pending{
+  background:#fff3cd;
+  color:#856404;
+}
+
+.status.approved{
+  background:#d4edda;
+  color:#155724;
+}
+
+.status.rejected{
+  background:#f8d7da;
+  color:#721c24;
+}
+
+/* CONTENIDO */
+.card-content p{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  margin:6px 0;
+  font-size:14px;
+}
+
+/* RESPONSIVE 🔥 */
+@media(max-width:1200px){
+  .reservations-grid{
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media(max-width:600px){
+  .reservations-grid{
+    grid-template-columns: 1fr;
+  }
+}
+
+.card-actions{
+  display:flex;
+  justify-content:flex-end; 
+  align-items:center;
+  gap:8px;
+  margin-top:10px;
+}

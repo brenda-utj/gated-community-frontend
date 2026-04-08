@@ -1,84 +1,123 @@
-.sidenav-container {
-    height: 100vh;
-  }
+.main-toolbar {
+  display: flex;
+  justify-content: space-between;
+  padding: 0 16px;
+  height: 64px; // Un poco más alta para que respire la info
+}
+
+.brand-section {
+  display: flex;
+  align-items: center;
   
-  .sidenav {
-    width: 250px;
-  }
-  
-  .spacer {
-    flex: 1 1 auto;
-  }
-  
-  .main-content {
-    padding: 24px;
-  }
-  
-  .active-link {
-    background-color: rgba(0, 0, 0, 0.04);
-    color: #3f51b5; // Color primario de Material
+  .brand-logo {
+    font-weight: 800;
+    letter-spacing: 1px;
+    font-size: 20px;
   }
 
-  .main-toolbar {
+  .vertical-divider {
+    width: 1px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.3);
+    margin: 0 20px;
+  }
+}
+
+.location-container {
+  display: flex;
+  flex-direction: column; // Apilados se ven más limpios en toolbars
+  justify-content: center;
+  gap: 2px;
+
+  .info-item {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 6px;
+    font-size: 11px;
+    opacity: 0.9;
+    line-height: 1;
+
+    mat-icon {
+      font-size: 14px;
+      width: 14px;
+      height: 14px;
+    }
+    
+    .label {
+      font-weight: 400;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      max-width: 200px;
+    }
+  }
+}
+
+.user-profile-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  transition: background 0.2s;
+
+  .user-info-text {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end; // Alineado a la derecha junto al avatar
+
+    .user-name {
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 1.2;
+    }
+
+    .user-email {
+      font-size: 11px;
+      opacity: 0.8;
+      font-weight: 300;
+    }
+  }
+
+  .user-avatar {
+    width: 38px;
+    height: 38px;
+    background: white;
+    color: #3f51b5; // Cambia esto por tu color primario
+    border-radius: 10px; // Estilo moderno (squircle)
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   }
-  
-  .brand-section {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-  }
-  
-  .location-chips {
-    display: flex;
-    gap: 8px;
-    
-    .location-badge {
-      display: flex;
-      align-items: center;
-      gap: 4px;
-      background: rgba(255, 255, 255, 0.15);
-      padding: 4px 10px;
-      border-radius: 6px;
-      font-size: 12px;
-      font-weight: 500;
-      
-      mat-icon {
-        font-size: 16px;
-        width: 16px;
-        height: 16px;
-      }
-  
-      &.complex { border: 1px solid rgba(255,255,255,0.2); }
-      &.house { background: rgba(255, 255, 255, 0.25); }
-    }
-  }
-  
-  .user-profile {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  
-    .user-name {
-      font-weight: 500;
-      font-size: 14px;
-    }
-  
-    .user-avatar {
-      width: 32px;
-      height: 32px;
-      background: rgba(255, 255, 255, 0.9);
-      color: var(--mat-primary-main);
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 13px;
-    }
-  }
-  
-  .spacer { flex: 1 1 auto; }
+}
+
+.sidenav-container {
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidenav {
+  width: 260px;
+  border-right: none;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.05);
+}
+
+// Esta es la parte CRUCIAL
+.main-content {
+  padding: 24px;
+  // Calculamos el alto restando la toolbar (64px) 
+  // para que el scroll sea interno y no se corte nada
+  height: calc(100vh - 64px); 
+  overflow-y: auto; 
+  background-color: #f5f7f9; // Un gris muy ligero ayuda a que resalten las cards
+}
+
+mat-sidenav-content {
+  overflow: hidden; // Evita el doble scroll (el de la página y el del contenido)
+  display: flex;
+  flex-direction: column;
+}

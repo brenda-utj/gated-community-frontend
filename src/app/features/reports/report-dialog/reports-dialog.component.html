@@ -1,59 +1,122 @@
-<h2 mat-dialog-title>Nuevo Reporte</h2>
+<div class="dialog-wrapper">
 
-<mat-dialog-content>
-  <form [formGroup]="form" class="form-container">
-
-    <!-- Asunto -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Asunto</mat-label>
-      <input matInput formControlName="subject" />
-    </mat-form-field>
-
-    <!-- Descripción -->
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Descripción</mat-label>
-      <textarea matInput rows="4" formControlName="description"></textarea>
-    </mat-form-field>
-
-    <!-- Imagen -->
-    <div class="image-upload">
-
-      @if (!previewUrl) {
-        <label class="upload-btn">
-          <mat-icon>photo_camera</mat-icon>
-          Agregar foto (opcional)
-          <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
-        </label>
-      }
-
-      @if (previewUrl) {
-        <div class="preview-container">
-          <img [src]="previewUrl" alt="preview" />
-
-          <button mat-icon-button color="warn" (click)="removeImage()">
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-      }
-
+  <!-- Header -->
+  <div class="dialog-header">
+    <div class="header-icon" [class.edit-mode]="isEditing">
+      <mat-icon>{{ isEditing ? 'edit_note' : 'add_comment' }}</mat-icon>
     </div>
+    <div class="header-text">
+      <h2 class="dialog-title">{{ isEditing ? 'Editar reporte' : 'Nuevo reporte' }}</h2>
+      <p class="dialog-subtitle">{{ isEditing ? 'Modifica los campos que necesites' : 'Cuéntanos qué está pasando' }}</p>
+    </div>
+    <button mat-icon-button class="close-btn" mat-dialog-close>
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
 
-  </form>
-</mat-dialog-content>
+  <mat-dialog-content>
+    <form [formGroup]="form" class="form-body">
 
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>CANCELAR</button>
+      <!-- Asunto -->
+      <div class="field-group">
+        <label class="field-label">Asunto</label>
+        <mat-form-field appearance="outline" class="full-width custom-field">
+          <input
+            matInput
+            formControlName="subject"
+            placeholder="Ej. Fuga de agua en baño"
+            maxlength="100"
+          />
+          <mat-error *ngIf="form.get('subject')?.hasError('required')">
+            Este campo es obligatorio
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-  <button 
-    mat-flat-button 
-    color="primary" 
-    (click)="send()" 
-    [disabled]="form.invalid || loading">
+      <!-- Descripción -->
+      <div class="field-group">
+        <label class="field-label">Descripción</label>
+        <mat-form-field appearance="outline" class="full-width custom-field">
+          <textarea
+            matInput
+            rows="4"
+            formControlName="description"
+            placeholder="Describe el problema con el mayor detalle posible..."
+            maxlength="500"
+          ></textarea>
+          <mat-error *ngIf="form.get('description')?.hasError('required')">
+            Este campo es obligatorio
+          </mat-error>
+        </mat-form-field>
+      </div>
 
-    @if (!loading) {
-      ENVIAR
-    } @else {
-      Enviando...
-    }
-  </button>
-</mat-dialog-actions>
+      <!-- Zona de imagen -->
+      <div class="field-group">
+        <label class="field-label">
+          Foto evidencia
+          <span class="optional-badge">Opcional</span>
+        </label>
+
+        <!-- Estado vacío: sin imagen -->
+        @if (!previewUrl) {
+          <label class="upload-zone">
+            <div class="upload-content">
+              <div class="upload-icon-circle">
+                <mat-icon>photo_camera</mat-icon>
+              </div>
+              <p class="upload-hint">Arrastra o haz clic para subir</p>
+              <p class="upload-formats">JPG, PNG, WEBP · Máx 5 MB</p>
+            </div>
+            <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
+          </label>
+        }
+
+        <!-- Estado con imagen: preview -->
+        @if (previewUrl) {
+          <div class="preview-wrapper">
+            <div class="preview-image-container">
+              <img [src]="previewUrl" alt="Vista previa" class="preview-img" />
+              <div class="preview-overlay">
+                <button class="preview-action-btn" (click)="removeImage()" type="button">
+                  <mat-icon>delete_outline</mat-icon>
+                  Eliminar foto
+                </button>
+                <label class="preview-action-btn change-btn" type="button">
+                  <mat-icon>photo_camera</mat-icon>
+                  Cambiar foto
+                  <input type="file" accept="image/*" (change)="onFileSelected($event)" hidden />
+                </label>
+              </div>
+            </div>
+            <p class="preview-filename">
+              {{ selectedFile?.name || 'Imagen existente' }}
+            </p>
+          </div>
+        }
+      </div>
+
+    </form>
+  </mat-dialog-content>
+
+  <!-- Acciones -->
+  <mat-dialog-actions class="dialog-actions">
+    <button mat-button mat-dialog-close class="cancel-btn">
+      Cancelar
+    </button>
+    <button
+      class="submit-btn"
+      (click)="send()"
+      [disabled]="form.invalid || loading"
+      type="button"
+    >
+      @if (!loading) {
+        <mat-icon>{{ isEditing ? 'save' : 'send' }}</mat-icon>
+        {{ isEditing ? 'Guardar cambios' : 'Enviar reporte' }}
+      } @else {
+        <mat-progress-spinner diameter="18" mode="indeterminate" color="accent" />
+        {{ isEditing ? 'Guardando...' : 'Enviando...' }}
+      }
+    </button>
+  </mat-dialog-actions>
+
+</div>
